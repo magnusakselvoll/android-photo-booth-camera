@@ -35,6 +35,11 @@ namespace Android_Photo_Booth
                 ShowBadAdbPathDialog();
                 return;
             }
+
+            var controller = new AdbController(_adbFolderTextBox.Text);
+            AndroidDevice device;
+            string errorMessage;
+            controller.TryConnectToDevice(out device, out errorMessage);
         }
 
         private void ShowBadAdbPathDialog()

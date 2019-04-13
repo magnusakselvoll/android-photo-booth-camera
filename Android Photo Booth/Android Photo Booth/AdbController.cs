@@ -38,10 +38,14 @@ List of devices attached
 */
         public bool TryConnectToDevice(out AndroidDevice device, out string errorMessage)
         {
+            var outputLines = ExecuteAdbCommand("devices -l");
 
+            device = null;
+            errorMessage = null;
+            return false;
         }
 
-        private string ExecuteAdbCommand(string arguments)
+        private IEnumerable<string> ExecuteAdbCommand(string arguments)
         {
             var si = new ProcessStartInfo(AdbExePath, arguments)
             {
@@ -56,7 +60,11 @@ List of devices attached
             // Start the process.
             Process p = Process.Start(si);
 
-            return p.StandardOutput.ReadToEnd();
+            string line;
+            while ((line = p.StandardOutput.ReadLine()) != null)
+            {
+                yield return line;
+            }
         }
 
     }
