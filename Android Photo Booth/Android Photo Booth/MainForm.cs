@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Android_Photo_Booth
@@ -58,7 +59,7 @@ namespace Android_Photo_Booth
             return false;
         }
 
-        private void OnPhotoButtonClick(object sender, EventArgs e)
+        private async void OnPhotoButtonClickAsync(object sender, EventArgs e)
         {
             var controller = new AdbController(_adbFolderTextBox.Text);
 
@@ -73,9 +74,11 @@ namespace Android_Photo_Booth
                 return;
             }
 
+            await Task.Delay(1000);
+
             if (controller.IsLocked())
             {
-                controller.Unlock(_pinTextBox.Text);
+                await controller.UnlockAsync(_pinTextBox.Text);
             }
 
             if (controller.IsLocked())

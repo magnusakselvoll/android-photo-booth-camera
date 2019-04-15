@@ -127,7 +127,7 @@
             this._photoButton.TabIndex = 8;
             this._photoButton.Text = "Take photo";
             this._photoButton.UseVisualStyleBackColor = true;
-            this._photoButton.Click += new System.EventHandler(this.OnPhotoButtonClick);
+            this._photoButton.Click += new System.EventHandler(this.OnPhotoButtonClickAsync);
             // 
             // MainForm
             // 

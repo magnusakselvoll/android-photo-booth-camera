@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Android_Photo_Booth
@@ -20,7 +21,7 @@ namespace Android_Photo_Booth
 
         public bool TryConnectToDevice(out AndroidDevice device, out string errorMessage)
         {
-            var outputLines = ExecuteAdbCommand("devices -l").ToArray();
+            var outputLines = ExecuteAdbCommand("devices -l");
 
             foreach (string line in outputLines)
             {
@@ -44,19 +45,19 @@ namespace Android_Photo_Booth
 
         public bool IsInteractive()
         {
-            var outputLines = ExecuteAdbCommand("shell service call power 12").ToArray();
+            var outputLines = ExecuteAdbCommand("shell service call power 12");
 
             return ParseResult(outputLines);
         }
 
         public bool IsLocked()
         {
-            var outputLines = ExecuteAdbCommand("shell service call trust 7").ToArray();
+            var outputLines = ExecuteAdbCommand("shell service call trust 7");
 
             return ParseResult(outputLines);
         }
 
-        private static bool ParseResult(string[] outputLines)
+        private static bool ParseResult(List<string> outputLines)
         {
             foreach (var line in outputLines)
             {
@@ -70,7 +71,7 @@ namespace Android_Photo_Booth
         }
 
 
-        private IEnumerable<string> ExecuteAdbCommand(string arguments)
+        private List<string> ExecuteAdbCommand(string arguments)
         {
             var si = new ProcessStartInfo(AdbExePath, arguments)
             {
@@ -85,11 +86,15 @@ namespace Android_Photo_Booth
             // Start the process.
             Process p = Process.Start(si);
 
+            var list = new List<string>();
+
             string line;
             while ((line = p.StandardOutput.ReadLine()) != null)
             {
-                yield return line;
+                list.Add(line);
             }
+
+            return list;
         }
 
         public void EnableInteractive()
@@ -97,9 +102,11 @@ namespace Android_Photo_Booth
             ExecuteAdbCommand("shell input keyevent 82");
         }
 
-        public void Unlock(string pin)
+        public async Task UnlockAsync(string pin)
         {
-            ExecuteAdbCommand($"adb shell input text {pin} && adb shell input keyevent 66");
+            ExecuteAdbCommand($"shell input text {pin}");
+            await Task.Delay(500);
+            ExecuteAdbCommand("shell input keyevent 66");
         }
     }
 }
