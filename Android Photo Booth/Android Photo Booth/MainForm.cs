@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Android_Photo_Booth
@@ -37,9 +30,17 @@ namespace Android_Photo_Booth
             }
 
             var controller = new AdbController(_adbFolderTextBox.Text);
-            AndroidDevice device;
-            string errorMessage;
-            controller.TryConnectToDevice(out device, out errorMessage);
+
+            bool connected = controller.TryConnectToDevice(out AndroidDevice device, out string errorMessage);
+
+            if (connected)
+            {
+                _deviceTextBox.Text = device.ToString();
+            }
+            else
+            {
+                _deviceTextBox.Text = errorMessage;
+            }
         }
 
         private void ShowBadAdbPathDialog()
@@ -55,6 +56,33 @@ namespace Android_Photo_Booth
             if (File.Exists(adbExePath)) return true;
             adbExePath = null;
             return false;
+        }
+
+        private void OnPhotoButtonClick(object sender, EventArgs e)
+        {
+            var controller = new AdbController(_adbFolderTextBox.Text);
+
+            if (!controller.IsInteractive())
+            {
+                controller.EnableInteractive();
+            }
+
+            if (!controller.IsInteractive())
+            {
+                MessageBox.Show("Unable to activate device screen", "Device not interactive", MessageBoxButtons.OK);
+                return;
+            }
+
+            if (controller.IsLocked())
+            {
+                controller.Unlock(_pinTextBox.Text);
+            }
+
+            if (controller.IsLocked())
+            {
+                MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked", MessageBoxButtons.OK);
+                return;
+            }
         }
     }
 }

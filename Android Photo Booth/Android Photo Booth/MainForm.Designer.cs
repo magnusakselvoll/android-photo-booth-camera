@@ -29,12 +29,15 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this._device = new System.Windows.Forms.TextBox();
+            this._deviceTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this._adbFolderTextBox = new System.Windows.Forms.TextBox();
             this._adbFolderPicker = new System.Windows.Forms.FolderBrowserDialog();
             this._browseFolderButton = new System.Windows.Forms.Button();
             this._detectDeviceButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this._pinTextBox = new System.Windows.Forms.TextBox();
+            this._photoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -46,14 +49,14 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Device";
             // 
-            // _device
+            // _deviceTextBox
             // 
-            this._device.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this._deviceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._device.Location = new System.Drawing.Point(159, 31);
-            this._device.Name = "_device";
-            this._device.Size = new System.Drawing.Size(548, 20);
-            this._device.TabIndex = 4;
+            this._deviceTextBox.Location = new System.Drawing.Point(159, 31);
+            this._deviceTextBox.Name = "_deviceTextBox";
+            this._deviceTextBox.Size = new System.Drawing.Size(548, 20);
+            this._deviceTextBox.TabIndex = 4;
             // 
             // label2
             // 
@@ -98,16 +101,47 @@
             this._detectDeviceButton.UseVisualStyleBackColor = true;
             this._detectDeviceButton.Click += new System.EventHandler(this.OnDetectDeviceButtonClick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 60);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "PIN code (or empty)";
+            // 
+            // _pinTextBox
+            // 
+            this._pinTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._pinTextBox.Location = new System.Drawing.Point(159, 57);
+            this._pinTextBox.Name = "_pinTextBox";
+            this._pinTextBox.Size = new System.Drawing.Size(548, 20);
+            this._pinTextBox.TabIndex = 7;
+            // 
+            // _photoButton
+            // 
+            this._photoButton.Location = new System.Drawing.Point(159, 157);
+            this._photoButton.Name = "_photoButton";
+            this._photoButton.Size = new System.Drawing.Size(75, 23);
+            this._photoButton.TabIndex = 8;
+            this._photoButton.Text = "Take photo";
+            this._photoButton.UseVisualStyleBackColor = true;
+            this._photoButton.Click += new System.EventHandler(this.OnPhotoButtonClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._photoButton);
+            this.Controls.Add(this._pinTextBox);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this._detectDeviceButton);
             this.Controls.Add(this._browseFolderButton);
             this.Controls.Add(this._adbFolderTextBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this._device);
+            this.Controls.Add(this._deviceTextBox);
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
             this.Text = "Android Photo Booth";
@@ -119,12 +153,15 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox _device;
+        private System.Windows.Forms.TextBox _deviceTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox _adbFolderTextBox;
         private System.Windows.Forms.FolderBrowserDialog _adbFolderPicker;
         private System.Windows.Forms.Button _browseFolderButton;
         private System.Windows.Forms.Button _detectDeviceButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox _pinTextBox;
+        private System.Windows.Forms.Button _photoButton;
     }
 }
 
