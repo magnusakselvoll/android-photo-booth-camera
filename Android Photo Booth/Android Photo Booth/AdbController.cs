@@ -105,8 +105,18 @@ namespace Android_Photo_Booth
         public async Task UnlockAsync(string pin)
         {
             ExecuteAdbCommand($"shell input text {pin}");
-            await Task.Delay(500);
+            await Task.Delay(100);
             ExecuteAdbCommand("shell input keyevent 66");
+        }
+
+        public void OpenCamera()
+        {
+            ExecuteAdbCommand("shell am start -a android.media.action.STILL_IMAGE_CAMERA");
+        }
+
+        public void FocusCamera()
+        {
+            ExecuteAdbCommand("shell input keyevent KEYCODE_FOCUS");
         }
     }
 }

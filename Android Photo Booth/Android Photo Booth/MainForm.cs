@@ -59,7 +59,7 @@ namespace Android_Photo_Booth
             return false;
         }
 
-        private async void OnPhotoButtonClickAsync(object sender, EventArgs e)
+        private async void OnOpenCameraButtonClickAsync(object sender, EventArgs e)
         {
             var controller = new AdbController(_adbFolderTextBox.Text);
 
@@ -74,7 +74,7 @@ namespace Android_Photo_Booth
                 return;
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(100);
 
             if (controller.IsLocked())
             {
@@ -86,6 +86,15 @@ namespace Android_Photo_Booth
                 MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked", MessageBoxButtons.OK);
                 return;
             }
+
+            controller.OpenCamera();
+        }
+
+        private void OnFocusButtonClick(object sender, EventArgs e)
+        {
+            var controller = new AdbController(_adbFolderTextBox.Text);
+
+            controller.FocusCamera();
         }
     }
 }

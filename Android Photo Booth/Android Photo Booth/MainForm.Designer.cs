@@ -37,7 +37,8 @@
             this._detectDeviceButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this._pinTextBox = new System.Windows.Forms.TextBox();
-            this._photoButton = new System.Windows.Forms.Button();
+            this._openCameraButton = new System.Windows.Forms.Button();
+            this._focusButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -119,22 +120,33 @@
             this._pinTextBox.Size = new System.Drawing.Size(548, 20);
             this._pinTextBox.TabIndex = 7;
             // 
-            // _photoButton
+            // _openCameraButton
             // 
-            this._photoButton.Location = new System.Drawing.Point(159, 157);
-            this._photoButton.Name = "_photoButton";
-            this._photoButton.Size = new System.Drawing.Size(75, 23);
-            this._photoButton.TabIndex = 8;
-            this._photoButton.Text = "Take photo";
-            this._photoButton.UseVisualStyleBackColor = true;
-            this._photoButton.Click += new System.EventHandler(this.OnPhotoButtonClickAsync);
+            this._openCameraButton.Location = new System.Drawing.Point(159, 157);
+            this._openCameraButton.Name = "_openCameraButton";
+            this._openCameraButton.Size = new System.Drawing.Size(91, 23);
+            this._openCameraButton.TabIndex = 8;
+            this._openCameraButton.Text = "Open  camera";
+            this._openCameraButton.UseVisualStyleBackColor = true;
+            this._openCameraButton.Click += new System.EventHandler(this.OnOpenCameraButtonClickAsync);
+            // 
+            // _focusButton
+            // 
+            this._focusButton.Location = new System.Drawing.Point(256, 157);
+            this._focusButton.Name = "_focusButton";
+            this._focusButton.Size = new System.Drawing.Size(75, 23);
+            this._focusButton.TabIndex = 9;
+            this._focusButton.Text = "Focus";
+            this._focusButton.UseVisualStyleBackColor = true;
+            this._focusButton.Click += new System.EventHandler(this.OnFocusButtonClick);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this._photoButton);
+            this.Controls.Add(this._focusButton);
+            this.Controls.Add(this._openCameraButton);
             this.Controls.Add(this._pinTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this._detectDeviceButton);
@@ -161,7 +173,8 @@
         private System.Windows.Forms.Button _detectDeviceButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox _pinTextBox;
-        private System.Windows.Forms.Button _photoButton;
+        private System.Windows.Forms.Button _openCameraButton;
+        private System.Windows.Forms.Button _focusButton;
     }
 }
 
