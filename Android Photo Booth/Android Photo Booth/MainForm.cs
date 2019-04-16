@@ -96,5 +96,11 @@ namespace Android_Photo_Booth
 
             controller.FocusCamera();
         }
+
+        private void OnSettingsButtonClick(object sender, EventArgs e)
+        {
+            var settingsForm = new SettingsForm();
+            settingsForm.ShowDialog(this);
+        }
     }
 }

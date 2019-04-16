@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Android_Photo_Booth
 {
@@ -112,6 +110,7 @@ namespace Android_Photo_Booth
         public void OpenCamera()
         {
             ExecuteAdbCommand("shell am start -a android.media.action.STILL_IMAGE_CAMERA");
+            ExecuteAdbCommand("shell am start -a android.media.action.IMAGE_CAPTURE");
         }
 
         public void FocusCamera()
