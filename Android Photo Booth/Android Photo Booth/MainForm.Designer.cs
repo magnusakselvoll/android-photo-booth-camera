@@ -75,7 +75,7 @@
             this._detectDeviceButton.TabIndex = 5;
             this._detectDeviceButton.Text = "Detect";
             this._detectDeviceButton.UseVisualStyleBackColor = true;
-            this._detectDeviceButton.Click += new System.EventHandler(this.OnDetectDeviceButtonClick);
+            this._detectDeviceButton.Click += new System.EventHandler(this.OnDetectDeviceButtonClickAsync);
             // 
             // _openCameraButton
             // 
@@ -145,7 +145,7 @@
             // 
             // _focusTimer
             // 
-            this._focusTimer.Tick += new System.EventHandler(this.OnFocusTimerTick);
+            this._focusTimer.Tick += new System.EventHandler(this.OnFocusTimerTickAsync);
             // 
             // MainForm
             // 

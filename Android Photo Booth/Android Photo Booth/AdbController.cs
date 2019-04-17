@@ -18,40 +18,36 @@ namespace Android_Photo_Booth
         private string AdbExePath => Path.Combine(AdbBinariesFolder, "adb.exe");
 
 
-        public bool TryConnectToDevice(out AndroidDevice device, out string errorMessage)
+        public async Task<(bool connected, AndroidDevice device, string errorMessage)> TryConnectToDeviceAsync()
         {
-            var outputLines = ExecuteAdbCommand("devices -l");
+            var outputLines = await ExecuteAdbCommandAsync("devices -l");
 
             foreach (string line in outputLines)
             {
-                if (AndroidDevice.TryParse(line, out device))
+                if (AndroidDevice.TryParse(line, out AndroidDevice device))
                 {
                     if (!device.Authorized)
                     {
-                        errorMessage =
-                            $"Device {device.Id} not authorized. Please enable usb debugging and whitelist computer from the device.";
+                        return (false, device, $"Device {device.Id} not authorized. Please enable usb debugging and whitelist computer from the device.");
                     }
 
-                    errorMessage = null;
-                    return true;
+                    return (true, device, null);
                 }
             }
 
-            device = null;
-            errorMessage = null;
-            return false;
+            return (false, null, "No device found");
         }
 
-        public bool IsInteractive()
+        public async Task<bool> IsInteractiveAsync()
         {
-            var outputLines = ExecuteAdbCommand("shell service call power 12");
+            var outputLines = await ExecuteAdbCommandAsync("shell service call power 12");
 
             return ParseResult(outputLines);
         }
 
-        public bool IsLocked()
+        public async Task<bool> IsLockedAsync()
         {
-            var outputLines = ExecuteAdbCommand("shell service call trust 7");
+            var outputLines = await ExecuteAdbCommandAsync("shell service call trust 7");
 
             return ParseResult(outputLines);
         }
@@ -70,7 +66,7 @@ namespace Android_Photo_Booth
         }
 
 
-        private List<string> ExecuteAdbCommand(string arguments)
+        private async Task<List<string>> ExecuteAdbCommandAsync(string arguments)
         {
             var si = new ProcessStartInfo(AdbExePath, arguments)
             {
@@ -88,7 +84,7 @@ namespace Android_Photo_Booth
             var list = new List<string>();
 
             string line;
-            while ((line = p.StandardOutput.ReadLine()) != null)
+            while ((line = await p.StandardOutput.ReadLineAsync()) != null)
             {
                 list.Add(line);
             }
@@ -96,26 +92,26 @@ namespace Android_Photo_Booth
             return list;
         }
 
-        public void EnableInteractive()
+        public async Task EnableInteractiveAsync()
         {
-            ExecuteAdbCommand("shell input keyevent 82");
+            await ExecuteAdbCommandAsync("shell input keyevent 82");
         }
 
         public async Task UnlockAsync(string pin)
         {
-            ExecuteAdbCommand($"shell input text {pin}");
+            await ExecuteAdbCommandAsync($"shell input text {pin}");
             await Task.Delay(100);
-            ExecuteAdbCommand("shell input keyevent 66");
+            await ExecuteAdbCommandAsync("shell input keyevent 66");
         }
 
-        public void OpenCamera()
+        public async Task OpenCameraAsync()
         {
-            ExecuteAdbCommand($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
+            await ExecuteAdbCommandAsync($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
         }
 
-        public void FocusCamera()
+        public async Task FocusCameraAsync()
         {
-            ExecuteAdbCommand("shell input keyevent KEYCODE_FOCUS");
+            await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_FOCUS");
         }
     }
 }

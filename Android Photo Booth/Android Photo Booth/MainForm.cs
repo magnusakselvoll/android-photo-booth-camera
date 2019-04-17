@@ -21,20 +21,13 @@ namespace Android_Photo_Booth
         }
 
 
-        private void OnDetectDeviceButtonClick(object sender, EventArgs e)
+        private async void OnDetectDeviceButtonClickAsync(object sender, EventArgs e)
         {
             AdbController controller = GetController();
 
-            bool connected = controller.TryConnectToDevice(out AndroidDevice device, out string errorMessage);
+            (bool connected, AndroidDevice device, string errorMessage) = await controller.TryConnectToDeviceAsync();
 
-            if (connected)
-            {
-                _deviceTextBox.Text = device.ToString();
-            }
-            else
-            {
-                _deviceTextBox.Text = errorMessage;
-            }
+            _deviceTextBox.Text = connected ? device.ToString() : errorMessage;
         }
 
         private void ShowBadAdbPathDialog()
@@ -48,12 +41,12 @@ namespace Android_Photo_Booth
         {
             AdbController controller = GetController();
 
-            if (!controller.IsInteractive())
+            if (!await controller.IsInteractiveAsync())
             {
-                controller.EnableInteractive();
+                await controller.EnableInteractiveAsync();
             }
 
-            if (!controller.IsInteractive())
+            if (!await controller.IsInteractiveAsync())
             {
                 MessageBox.Show("Unable to activate device screen", "Device not interactive", MessageBoxButtons.OK);
                 return;
@@ -61,18 +54,18 @@ namespace Android_Photo_Booth
 
             await Task.Delay(100);
 
-            if (controller.IsLocked())
+            if (await controller.IsLockedAsync())
             {
                 await controller.UnlockAsync(Settings.Default.PinCode);
             }
 
-            if (controller.IsLocked())
+            if (await controller.IsLockedAsync())
             {
                 MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked", MessageBoxButtons.OK);
                 return;
             }
 
-            controller.OpenCamera();
+            await controller.OpenCameraAsync();
         }
 
         private void OnFocusButtonClick(object sender, EventArgs e)
@@ -80,6 +73,7 @@ namespace Android_Photo_Booth
             if (_focusLoopRunning)
             {
                 _focusTimer.Stop();
+                _focusProgressBar.Value = _focusProgressBar.Minimum;
                 return;
             }
 
@@ -94,6 +88,8 @@ namespace Android_Photo_Booth
 
             _focusTimer.Interval = intervalStep;
             _focusTimer.Start();
+
+            _focusLoopRunning = true;
         }
 
         private void OnSettingsButtonClick(object sender, EventArgs e)
@@ -102,12 +98,12 @@ namespace Android_Photo_Booth
             settingsForm.ShowDialog(this);
         }
 
-        private void OnFocusTimerTick(object sender, EventArgs e)
+        private async void OnFocusTimerTickAsync(object sender, EventArgs e)
         {
             if (_focusProgressBar.Value >= _focusProgressBar.Maximum)
             {
                 AdbController controller = GetController();
-                controller.FocusCamera();
+                await controller.FocusCameraAsync();
 
                 _focusProgressBar.Value = _focusProgressBar.Minimum;
 
