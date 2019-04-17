@@ -28,27 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.label1 = new System.Windows.Forms.Label();
             this._deviceTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this._adbFolderTextBox = new System.Windows.Forms.TextBox();
-            this._adbFolderPicker = new System.Windows.Forms.FolderBrowserDialog();
-            this._browseFolderButton = new System.Windows.Forms.Button();
             this._detectDeviceButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this._pinTextBox = new System.Windows.Forms.TextBox();
             this._openCameraButton = new System.Windows.Forms.Button();
             this._focusButton = new System.Windows.Forms.Button();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._settingsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this._focusProgressBar = new System.Windows.Forms.ProgressBar();
+            this._focusTimer = new System.Windows.Forms.Timer(this.components);
+            this._toolStrip.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 154);
+            this.label1.Location = new System.Drawing.Point(4, 13);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 20);
@@ -59,51 +58,17 @@
             // 
             this._deviceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._deviceTextBox.Location = new System.Drawing.Point(238, 150);
+            this._deviceTextBox.Location = new System.Drawing.Point(135, 10);
             this._deviceTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._deviceTextBox.Name = "_deviceTextBox";
-            this._deviceTextBox.Size = new System.Drawing.Size(820, 26);
+            this._deviceTextBox.ReadOnly = true;
+            this._deviceTextBox.Size = new System.Drawing.Size(812, 26);
             this._deviceTextBox.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 114);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Adb path";
-            // 
-            // _adbFolderTextBox
-            // 
-            this._adbFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._adbFolderTextBox.Location = new System.Drawing.Point(238, 110);
-            this._adbFolderTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._adbFolderTextBox.Name = "_adbFolderTextBox";
-            this._adbFolderTextBox.Size = new System.Drawing.Size(820, 26);
-            this._adbFolderTextBox.TabIndex = 1;
-            // 
-            // _adbFolderPicker
-            // 
-            this._adbFolderPicker.ShowNewFolderButton = false;
-            // 
-            // _browseFolderButton
-            // 
-            this._browseFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._browseFolderButton.Location = new System.Drawing.Point(1070, 107);
-            this._browseFolderButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._browseFolderButton.Name = "_browseFolderButton";
-            this._browseFolderButton.Size = new System.Drawing.Size(112, 35);
-            this._browseFolderButton.TabIndex = 2;
-            this._browseFolderButton.Text = "Browse";
-            this._browseFolderButton.UseVisualStyleBackColor = true;
-            this._browseFolderButton.Click += new System.EventHandler(this.OnBrowseFolderButtonClick);
             // 
             // _detectDeviceButton
             // 
-            this._detectDeviceButton.Location = new System.Drawing.Point(1070, 147);
+            this._detectDeviceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._detectDeviceButton.Location = new System.Drawing.Point(955, 6);
             this._detectDeviceButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._detectDeviceButton.Name = "_detectDeviceButton";
             this._detectDeviceButton.Size = new System.Drawing.Size(112, 35);
@@ -112,29 +77,9 @@
             this._detectDeviceButton.UseVisualStyleBackColor = true;
             this._detectDeviceButton.Click += new System.EventHandler(this.OnDetectDeviceButtonClick);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 194);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(149, 20);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "PIN code (or empty)";
-            // 
-            // _pinTextBox
-            // 
-            this._pinTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._pinTextBox.Location = new System.Drawing.Point(238, 190);
-            this._pinTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._pinTextBox.Name = "_pinTextBox";
-            this._pinTextBox.Size = new System.Drawing.Size(820, 26);
-            this._pinTextBox.TabIndex = 7;
-            // 
             // _openCameraButton
             // 
-            this._openCameraButton.Location = new System.Drawing.Point(238, 344);
+            this._openCameraButton.Location = new System.Drawing.Point(135, 82);
             this._openCameraButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._openCameraButton.Name = "_openCameraButton";
             this._openCameraButton.Size = new System.Drawing.Size(136, 35);
@@ -145,25 +90,24 @@
             // 
             // _focusButton
             // 
-            this._focusButton.Location = new System.Drawing.Point(384, 344);
+            this._focusButton.Location = new System.Drawing.Point(135, 127);
             this._focusButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._focusButton.Name = "_focusButton";
-            this._focusButton.Size = new System.Drawing.Size(112, 35);
+            this._focusButton.Size = new System.Drawing.Size(136, 35);
             this._focusButton.TabIndex = 9;
-            this._focusButton.Text = "Focus";
+            this._focusButton.Text = "Focus loop";
             this._focusButton.UseVisualStyleBackColor = true;
             this._focusButton.Click += new System.EventHandler(this.OnFocusButtonClick);
             // 
-            // toolStrip1
+            // _toolStrip
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._settingsButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1200, 32);
-            this.toolStrip1.TabIndex = 10;
-            this.toolStrip1.Text = "toolStrip1";
+            this._toolStrip.Location = new System.Drawing.Point(0, 0);
+            this._toolStrip.Name = "_toolStrip";
+            this._toolStrip.Size = new System.Drawing.Size(1080, 32);
+            this._toolStrip.TabIndex = 10;
             // 
             // _settingsButton
             // 
@@ -175,27 +119,48 @@
             this._settingsButton.Text = "Settings";
             this._settingsButton.Click += new System.EventHandler(this.OnSettingsButtonClick);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this._focusProgressBar);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this._deviceTextBox);
+            this.panel1.Controls.Add(this._focusButton);
+            this.panel1.Controls.Add(this._detectDeviceButton);
+            this.panel1.Controls.Add(this._openCameraButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 32);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1080, 660);
+            this.panel1.TabIndex = 11;
+            // 
+            // _focusProgressBar
+            // 
+            this._focusProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._focusProgressBar.Location = new System.Drawing.Point(278, 127);
+            this._focusProgressBar.Name = "_focusProgressBar";
+            this._focusProgressBar.Size = new System.Drawing.Size(669, 35);
+            this._focusProgressBar.Step = 1;
+            this._focusProgressBar.TabIndex = 10;
+            // 
+            // _focusTimer
+            // 
+            this._focusTimer.Tick += new System.EventHandler(this.OnFocusTimerTick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 692);
-            this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this._focusButton);
-            this.Controls.Add(this._openCameraButton);
-            this.Controls.Add(this._pinTextBox);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this._detectDeviceButton);
-            this.Controls.Add(this._browseFolderButton);
-            this.Controls.Add(this._adbFolderTextBox);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this._deviceTextBox);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(1080, 692);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this._toolStrip);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "Android Photo Booth";
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this._toolStrip.ResumeLayout(false);
+            this._toolStrip.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,17 +170,14 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox _deviceTextBox;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox _adbFolderTextBox;
-        private System.Windows.Forms.FolderBrowserDialog _adbFolderPicker;
-        private System.Windows.Forms.Button _browseFolderButton;
         private System.Windows.Forms.Button _detectDeviceButton;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox _pinTextBox;
         private System.Windows.Forms.Button _openCameraButton;
         private System.Windows.Forms.Button _focusButton;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip _toolStrip;
         private System.Windows.Forms.ToolStripButton _settingsButton;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ProgressBar _focusProgressBar;
+        private System.Windows.Forms.Timer _focusTimer;
     }
 }
 

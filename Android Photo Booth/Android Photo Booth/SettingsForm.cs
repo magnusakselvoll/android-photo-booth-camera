@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Android_Photo_Booth.Properties;
 
@@ -16,14 +10,19 @@ namespace Android_Photo_Booth
         public SettingsForm()
         {
             InitializeComponent();
-        }
 
-        private void OnSettingsFormActivated(object sender, EventArgs e)
-        {
+            _settingsBindingSource.DataSource = Settings.Default;
+            _cameraTypeBindingSource.DataSource = CameraType.All;
         }
 
         private void OnSaveButtonClick(object sender, EventArgs e)
         {
+            if (!ValidateChildren(ValidationConstraints.Enabled))
+            {
+                MessageBox.Show("Invalid settings - please review", "Invalid settings", MessageBoxButtons.OK);
+                return;
+            }
+
             Settings.Default.Save();
             Close();
         }
@@ -36,8 +35,20 @@ namespace Android_Photo_Booth
 
         private void OnSettingsFormLoad(object sender, EventArgs e)
         {
-            settingsBindingSource.DataSource = Settings.Default;
+        }
 
+        private void OnBrowseButtonClick(object sender, EventArgs e)
+        {
+            _folderBrowserDialog.SelectedPath = adbPathTextBox.Text;
+            DialogResult result = _folderBrowserDialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                adbPathTextBox.Text = _folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void CameraAppComboBox_Validating(object sender, CancelEventArgs e)
+        {
         }
     }
 }

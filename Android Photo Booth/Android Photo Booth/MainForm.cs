@@ -2,35 +2,28 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Android_Photo_Booth.Properties;
 
 namespace Android_Photo_Booth
 {
     public partial class MainForm : Form
     {
+        private bool _focusLoopRunning;
+
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void OnBrowseFolderButtonClick(object sender, EventArgs e)
+        private AdbController GetController()
         {
-            var result = _adbFolderPicker.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                _adbFolderTextBox.Text = _adbFolderPicker.SelectedPath;
-            }
+            return new AdbController(Settings.Default.AdbPath);
         }
+
 
         private void OnDetectDeviceButtonClick(object sender, EventArgs e)
         {
-            if (!TryGetAdbExecutablePath(out string adbExePath))
-            {
-                ShowBadAdbPathDialog();
-                return;
-            }
-
-            var controller = new AdbController(_adbFolderTextBox.Text);
+            AdbController controller = GetController();
 
             bool connected = controller.TryConnectToDevice(out AndroidDevice device, out string errorMessage);
 
@@ -50,18 +43,10 @@ namespace Android_Photo_Booth
                 MessageBoxButtons.OK);
         }
 
-        private bool TryGetAdbExecutablePath(out string adbExePath)
-        {
-            adbExePath = Path.Combine(_adbFolderTextBox.Text, "adb.exe");
-
-            if (File.Exists(adbExePath)) return true;
-            adbExePath = null;
-            return false;
-        }
 
         private async void OnOpenCameraButtonClickAsync(object sender, EventArgs e)
         {
-            var controller = new AdbController(_adbFolderTextBox.Text);
+            AdbController controller = GetController();
 
             if (!controller.IsInteractive())
             {
@@ -78,7 +63,7 @@ namespace Android_Photo_Booth
 
             if (controller.IsLocked())
             {
-                await controller.UnlockAsync(_pinTextBox.Text);
+                await controller.UnlockAsync(Settings.Default.PinCode);
             }
 
             if (controller.IsLocked())
@@ -92,15 +77,44 @@ namespace Android_Photo_Booth
 
         private void OnFocusButtonClick(object sender, EventArgs e)
         {
-            var controller = new AdbController(_adbFolderTextBox.Text);
+            if (_focusLoopRunning)
+            {
+                _focusTimer.Stop();
+                return;
+            }
 
-            controller.FocusCamera();
+            if (Settings.Default.FocusKeepaliveInterval < TimeSpan.FromSeconds(1))
+            {
+                MessageBox.Show("At least one second focus keepalive interval must be set", "Too short interval",
+                    MessageBoxButtons.OK);
+            }
+
+            double totalInterval = Settings.Default.FocusKeepaliveInterval.TotalMilliseconds;
+            int intervalStep = (int) Math.Round(totalInterval / ((double) (_focusProgressBar.Maximum - _focusProgressBar.Minimum) / _focusProgressBar.Step));
+
+            _focusTimer.Interval = intervalStep;
+            _focusTimer.Start();
         }
 
         private void OnSettingsButtonClick(object sender, EventArgs e)
         {
             var settingsForm = new SettingsForm();
             settingsForm.ShowDialog(this);
+        }
+
+        private void OnFocusTimerTick(object sender, EventArgs e)
+        {
+            if (_focusProgressBar.Value >= _focusProgressBar.Maximum)
+            {
+                AdbController controller = GetController();
+                controller.FocusCamera();
+
+                _focusProgressBar.Value = _focusProgressBar.Minimum;
+
+                return;
+            }
+
+            _focusProgressBar.PerformStep();
         }
     }
 }

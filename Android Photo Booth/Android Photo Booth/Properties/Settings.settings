@@ -8,11 +8,8 @@
     <Setting Name="PinCode" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Setting" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="CameraApp" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">STILL_IMAGE_CAMERA</Value>
     </Setting>
     <Setting Name="FocusKeepaliveInterval" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">00:00:15</Value>
