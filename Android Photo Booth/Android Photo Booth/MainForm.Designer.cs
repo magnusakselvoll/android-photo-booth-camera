@@ -38,8 +38,11 @@
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._settingsButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._downloadProgressBar = new System.Windows.Forms.ProgressBar();
+            this._downloadButton = new System.Windows.Forms.Button();
             this._focusProgressBar = new System.Windows.Forms.ProgressBar();
             this._focusTimer = new System.Windows.Forms.Timer(this.components);
+            this._downloadTimer = new System.Windows.Forms.Timer(this.components);
             this._toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -121,6 +124,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._downloadProgressBar);
+            this.panel1.Controls.Add(this._downloadButton);
             this.panel1.Controls.Add(this._focusProgressBar);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this._deviceTextBox);
@@ -133,6 +138,26 @@
             this.panel1.Size = new System.Drawing.Size(1080, 660);
             this.panel1.TabIndex = 11;
             // 
+            // _downloadProgressBar
+            // 
+            this._downloadProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._downloadProgressBar.Location = new System.Drawing.Point(278, 172);
+            this._downloadProgressBar.Name = "_downloadProgressBar";
+            this._downloadProgressBar.Size = new System.Drawing.Size(669, 35);
+            this._downloadProgressBar.TabIndex = 12;
+            // 
+            // _downloadButton
+            // 
+            this._downloadButton.Location = new System.Drawing.Point(135, 172);
+            this._downloadButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._downloadButton.Name = "_downloadButton";
+            this._downloadButton.Size = new System.Drawing.Size(136, 35);
+            this._downloadButton.TabIndex = 11;
+            this._downloadButton.Text = "Download loop";
+            this._downloadButton.UseVisualStyleBackColor = true;
+            this._downloadButton.Click += new System.EventHandler(this.OnDownloadButtonClick);
+            // 
             // _focusProgressBar
             // 
             this._focusProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -140,12 +165,15 @@
             this._focusProgressBar.Location = new System.Drawing.Point(278, 127);
             this._focusProgressBar.Name = "_focusProgressBar";
             this._focusProgressBar.Size = new System.Drawing.Size(669, 35);
-            this._focusProgressBar.Step = 1;
             this._focusProgressBar.TabIndex = 10;
             // 
             // _focusTimer
             // 
             this._focusTimer.Tick += new System.EventHandler(this.OnFocusTimerTickAsync);
+            // 
+            // _downloadTimer
+            // 
+            this._downloadTimer.Tick += new System.EventHandler(this.OnDownloadTimerTickAsync);
             // 
             // MainForm
             // 
@@ -178,6 +206,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ProgressBar _focusProgressBar;
         private System.Windows.Forms.Timer _focusTimer;
+        private System.Windows.Forms.ProgressBar _downloadProgressBar;
+        private System.Windows.Forms.Button _downloadButton;
+        private System.Windows.Forms.Timer _downloadTimer;
     }
 }
 

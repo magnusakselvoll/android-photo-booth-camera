@@ -9,6 +9,7 @@ namespace Android_Photo_Booth
     public partial class MainForm : Form
     {
         private bool _focusLoopRunning;
+        private bool _downloadLoopRunning;
 
         public MainForm()
         {
@@ -111,6 +112,45 @@ namespace Android_Photo_Booth
             }
 
             _focusProgressBar.PerformStep();
+        }
+
+        private void OnDownloadButtonClick(object sender, EventArgs e)
+        {
+            if (_downloadLoopRunning)
+            {
+                _downloadTimer.Stop();
+                _downloadProgressBar.Value = _downloadProgressBar.Minimum;
+                return;
+            }
+
+            if (Settings.Default.DownloadImagesInterval < TimeSpan.FromSeconds(1))
+            {
+                MessageBox.Show("At least one second focus keepalive interval must be set", "Too short interval",
+                    MessageBoxButtons.OK);
+            }
+
+            double totalInterval = Settings.Default.DownloadImagesInterval.TotalMilliseconds;
+            int intervalStep = (int)Math.Round(totalInterval / ((double)(_downloadProgressBar.Maximum - _downloadProgressBar.Minimum) / _downloadProgressBar.Step));
+
+            _downloadTimer.Interval = intervalStep;
+            _downloadTimer.Start();
+
+            _downloadLoopRunning = true;
+        }
+
+        private async void OnDownloadTimerTickAsync(object sender, EventArgs e)
+        {
+            if (_downloadProgressBar.Value >= _downloadProgressBar.Maximum)
+            {
+                AdbController controller = GetController();
+                await controller.DownloadFilesAsync();
+
+                _downloadProgressBar.Value = _downloadProgressBar.Minimum;
+
+                return;
+            }
+
+            _downloadProgressBar.PerformStep();
         }
     }
 }

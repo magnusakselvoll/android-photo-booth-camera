@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android_Photo_Booth.Properties;
 
@@ -16,7 +17,6 @@ namespace Android_Photo_Booth
 
         public string AdbBinariesFolder { get; }
         private string AdbExePath => Path.Combine(AdbBinariesFolder, "adb.exe");
-
 
         public async Task<(bool connected, AndroidDevice device, string errorMessage)> TryConnectToDeviceAsync()
         {
@@ -112,6 +112,75 @@ namespace Android_Photo_Booth
         public async Task FocusCameraAsync()
         {
             await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_FOCUS");
+        }
+
+        public async Task DownloadFilesAsync()
+        {
+            List<string> files = await GetStableFileListAsync();
+        }
+
+        private async Task<List<string>> GetStableFileListAsync()
+        {
+            var matchRegex = new Regex(Settings.Default.FileSelectionRegex, RegexOptions.IgnoreCase);
+
+            Dictionary<string, int> firstListing = await GetFileListAsync();
+            await Task.Delay(200);
+            Dictionary<string, int> secondListing = await GetFileListAsync();
+
+            var list = new List<string>();
+
+            foreach (KeyValuePair<string, int> firstPair in firstListing)
+            {
+                string fileName = firstPair.Key;
+                int blocksFirstListing = firstPair.Value;
+
+                if (!matchRegex.IsMatch(fileName))
+                {
+                    continue;
+                }
+
+                if (blocksFirstListing == 0)
+                {
+                    continue; //Empty
+                }
+
+                if (!secondListing.TryGetValue(fileName, out int blocksSecondListing))
+                {
+                    continue; //file not found in second listing
+                }
+
+                if (blocksFirstListing != blocksSecondListing)
+                {
+                    continue; //file is being written to
+                }
+
+                list.Add(fileName);
+            }
+
+            return list;
+        }
+
+        private async Task<Dictionary<string, int>> GetFileListAsync()
+        {
+            List<string> outputLines = await ExecuteAdbCommandAsync($"shell ls -s {Settings.Default.DeviceImageFolder}");
+
+            var listing = new Dictionary<string, int>();
+
+            var fileLineRegex = new Regex(@"^(?'Blocks'\d+)\s+(?'Filename'.*\S)\s*");
+
+            foreach (string line in outputLines)
+            {
+                var match = fileLineRegex.Match(line);
+
+                if (!match.Success)
+                {
+                    continue;
+                }
+
+                listing.Add(match.Groups["Filename"].Value, int.Parse(match.Groups["Blocks"].Value));
+            }
+
+            return listing;
         }
     }
 }
