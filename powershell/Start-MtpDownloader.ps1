@@ -35,7 +35,6 @@ $stopwatch = [system.diagnostics.stopwatch]::StartNew()
 $secondsToSleep = $([int]($RefreshInterval.TotalSeconds))
 $iteration = 0
 $completedFiles = @{ }
-[System.Collections.Queue]$filesToDelete = @()
 $publishedFileCounter = 0
 function Get-ShellProxy {
     if ( -not $global:ShellProxy) {
@@ -88,34 +87,36 @@ function Get-PublishFolder ([String] $baseFolder, [int] $filesPerSubfolder, [int
     return $publishFolder
 }
 
-$mtpDevice = Get-MtpDevice -MtpDeviceName $MtpDeviceName
-$mtpFolder = Get-SubFolder -parent $mtpDevice -path $Source
-$shell = Get-ShellProxy
-$destinationFolder = $shell.Namespace($Destination).self
-
 while ($stopwatch.Elapsed -lt $MaximumExecutionTime) {
     $iteration++
     Write-Host "Starting iteration $iteration" -ForegroundColor Green
 
+    $mtpDevice = Get-MtpDevice -MtpDeviceName $MtpDeviceName
+    $mtpFolder = Get-SubFolder -parent $mtpDevice -path $Source
+    $shell = Get-ShellProxy
+    $destinationFolder = $shell.Namespace($Destination).self
+
+
     $remoteFiles = $mtpFolder.GetFolder.items() | Where-Object {-not $_.IsFolder} # -and $_.Name -match $Filter}
 
     foreach ($remoteFile in $remoteFiles) {
-        Write-Verbose "Evaluating file '$($remoteFile.Name)'"
+        $originalFilename = $remoteFile.Name
 
-        if ($completedFiles[$remoteFile.Name]) {
-            Write-Verbose "File '$($remoteFile.Name)' already downloaded. Skipping."
+        Write-Verbose "Evaluating file '$($originalFilename)'"
+
+        if ($completedFiles[$originalFilename]) {
+            Write-Verbose "File '$($originalFilename)' already downloaded. Skipping."
             continue
         }
 
-        $tokenFilePath = "$Destination\$CompleteNamePattern" -f $remoteFile.Name
+        $tokenFilePath = "$Destination\$CompleteNamePattern" -f $originalFilename
         if (Test-Path($tokenFilePath)) {
-            Write-Warning "File '$($remoteFile.Name)' already downloaded in previous session. Skipping."
-            $completedFiles[$remoteFile.Name] = $true
+            Write-Warning "File '$($originalFilename)' already downloaded in previous session. Skipping."
+            $completedFiles[$originalFilename] = $true
             continue
         }
 
-        Write-Host "Downloading file '$($remoteFile.Name)'"
-        $copiedFile = Get-Item "$Destination\$($remoteFile.Name)"
+        Write-Host "Downloading file '$($originalFilename)'"
 
         if ($DeleteFromSource)
         {
@@ -126,21 +127,32 @@ while ($stopwatch.Elapsed -lt $MaximumExecutionTime) {
             $destinationFolder.GetFolder.CopyHere($remoteFile)
         }
         
+        $copiedFile = Get-Item "$Destination\$($originalFilename)"
+
+        if ($copiedFile.Length -lt 10000)
+        {
+            Write-Warning "File '$copiedFile' is only $($copiedFile.Length) bytes. Deleting and retrying next iteration"
+            $copiedFile | Remove-Item -Force
+            continue
+        }
+
+        "Copied file: $copiedFile"
+
         $publishFolder = Get-PublishFolder $PublishDirectory $PublishFilesPerSubfolder $publishedFileCounter
 
-        while (Test-Path("$publishFolder\$PublishNamePattern" -f "$publishedFileCounter$($copiedFile.Extension)")) {
+        while (Test-Path($("$publishFolder\$PublishNamePattern" -f "$publishedFileCounter$($copiedFile.Extension)"))) {
             $publishedFileCounter++;
             $publishFolder = Get-PublishFolder $PublishDirectory $PublishFilesPerSubfolder $publishedFileCounter
         }
 
-        $publishPath = "$publishFolder\$PublishNamePattern" -f "$publishedFileCounter$($copiedFile.Extension)"
+        $publishPath = $("$publishFolder\$PublishNamePattern" -f "$publishedFileCounter$($copiedFile.Extension)")
         Write-Verbose "Moving file to $publishPath"
 
         $copiedFile | Move-Item -Destination $publishPath
         New-Item $tokenFilePath | Write-Verbose
         Write-Verbose "Created token file at $tokenFilePath"
         
-        $completedFiles[$remoteFile.Name] = $true
+        $completedFiles[$originalFilename] = $true
         $publishedFileCounter++
     }
 

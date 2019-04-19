@@ -14,5 +14,26 @@
     <Setting Name="FocusKeepaliveInterval" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">00:00:15</Value>
     </Setting>
+    <Setting Name="DeviceImageFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DeleteAfterDownload" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WorkingFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PublishFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FileSelectionRegex" Type="System.String" Scope="User">
+      <Value Profile="(Default)">^.*\.jpg$</Value>
+    </Setting>
+    <Setting Name="PublishFilenamePattern" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{0}</Value>
+    </Setting>
+    <Setting Name="DownloadImagesInterval" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">00:00:10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

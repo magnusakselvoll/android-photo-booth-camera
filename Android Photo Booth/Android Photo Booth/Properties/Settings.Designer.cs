@@ -70,5 +70,89 @@ namespace Android_Photo_Booth.Properties {
                 this["FocusKeepaliveInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DeviceImageFolder {
+            get {
+                return ((string)(this["DeviceImageFolder"]));
+            }
+            set {
+                this["DeviceImageFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DeleteAfterDownload {
+            get {
+                return ((bool)(this["DeleteAfterDownload"]));
+            }
+            set {
+                this["DeleteAfterDownload"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WorkingFolder {
+            get {
+                return ((string)(this["WorkingFolder"]));
+            }
+            set {
+                this["WorkingFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PublishFolder {
+            get {
+                return ((string)(this["PublishFolder"]));
+            }
+            set {
+                this["PublishFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("^.*\\.jpg$")]
+        public string FileSelectionRegex {
+            get {
+                return ((string)(this["FileSelectionRegex"]));
+            }
+            set {
+                this["FileSelectionRegex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{0}")]
+        public string PublishFilenamePattern {
+            get {
+                return ((string)(this["PublishFilenamePattern"]));
+            }
+            set {
+                this["PublishFilenamePattern"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:10")]
+        public global::System.TimeSpan DownloadImagesInterval {
+            get {
+                return ((global::System.TimeSpan)(this["DownloadImagesInterval"]));
+            }
+            set {
+                this["DownloadImagesInterval"] = value;
+            }
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using Android_Photo_Booth.Properties;
 
@@ -37,7 +36,7 @@ namespace Android_Photo_Booth
         {
         }
 
-        private void OnBrowseButtonClick(object sender, EventArgs e)
+        private void OnAdbBrowseButtonClick(object sender, EventArgs e)
         {
             _folderBrowserDialog.SelectedPath = adbPathTextBox.Text;
             DialogResult result = _folderBrowserDialog.ShowDialog(this);
@@ -47,8 +46,29 @@ namespace Android_Photo_Booth
             }
         }
 
-        private void CameraAppComboBox_Validating(object sender, CancelEventArgs e)
+        private void OnResetButtonClick(object sender, EventArgs e)
         {
+            Settings.Default.Reset();
+        }
+
+        private void OnWorkingBrowseButtonClick(object sender, EventArgs e)
+        {
+            _folderBrowserDialog.SelectedPath = workingFolderTextBox.Text;
+            DialogResult result = _folderBrowserDialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                workingFolderTextBox.Text = _folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void OnPublishBrowseButtonClick(object sender, EventArgs e)
+        {
+            _folderBrowserDialog.SelectedPath = publishFolderTextBox.Text;
+            DialogResult result = _folderBrowserDialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                publishFolderTextBox.Text = _folderBrowserDialog.SelectedPath;
+            }
         }
     }
 }
