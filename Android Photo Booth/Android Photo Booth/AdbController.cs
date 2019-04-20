@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android_Photo_Booth.Properties;
@@ -117,6 +118,81 @@ namespace Android_Photo_Booth
         public async Task DownloadFilesAsync()
         {
             List<string> files = await GetStableFileListAsync();
+
+            foreach (string file in files)
+            {
+                await TryDownloadFileAsync(file);
+            }
+        }
+
+        private async Task TryDownloadFileAsync(string filename)
+        {
+            if (ExistsTokenFile(filename))
+            {
+                await DeleteIfConfiguredAsync(filename);
+                return;
+            }
+
+            await DownloadFileAsync(filename);
+
+            await PublishFileAsync(filename);
+
+            CreateTokenFile(filename);
+            await DeleteIfConfiguredAsync(filename);
+        }
+
+        private async Task PublishFileAsync(string filename)
+        {
+        }
+
+        private async Task DownloadFileAsync(string filename)
+        {
+            var outputLines =
+                await ExecuteAdbCommandAsync($"pull {GetFullDevicePath(filename)} {Settings.Default.WorkingFolder}");
+
+            if (outputLines.Count != 1 || !outputLines[0].Contains("pulled"))
+            {
+                throw new Exception($"Unable to pull file {filename}. Error: {outputLines.FirstOrDefault()}");
+            }
+        }
+
+        private async Task DeleteIfConfiguredAsync(string filename)
+        {
+            if (!Settings.Default.DeleteAfterDownload)
+            {
+                return;
+            }
+
+            var outputLines = await ExecuteAdbCommandAsync($"shell rm {GetFullDevicePath(filename)}");
+
+            //TODO: outputLines should be empty. Log if not.
+        }
+
+        private string GetFullDevicePath(string filename)
+        {
+            var folder = Settings.Default.DeviceImageFolder;
+
+            if (!folder.EndsWith("/"))
+            {
+                folder = $"{folder}/";
+            }
+
+            return $"{folder}{filename}";
+        }
+
+        private bool ExistsTokenFile(string originalFilename)
+        {
+            var tokenFilepath = Path.Combine(Settings.Default.WorkingFolder, $"{originalFilename}.token");
+
+            return File.Exists(tokenFilepath);
+        }
+
+        private void CreateTokenFile(string originalFilename)
+        {
+            var tokenFilepath = Path.Combine(Settings.Default.WorkingFolder, $"{originalFilename}.token");
+
+            using (File.Create(tokenFilepath))
+            { }
         }
 
         private async Task<List<string>> GetStableFileListAsync()
@@ -166,7 +242,7 @@ namespace Android_Photo_Booth
 
             var listing = new Dictionary<string, int>();
 
-            var fileLineRegex = new Regex(@"^(?'Blocks'\d+)\s+(?'Filename'.*\S)\s*");
+            var fileLineRegex = new Regex(@"^\s*(?'Blocks'\d+)\s+(?'Filename'.*\S)\s*");
 
             foreach (string line in outputLines)
             {

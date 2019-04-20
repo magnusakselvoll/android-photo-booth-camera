@@ -10,6 +10,7 @@ namespace Android_Photo_Booth
     {
         private bool _focusLoopRunning;
         private bool _downloadLoopRunning;
+        private bool _downloading;
 
         public MainForm()
         {
@@ -142,8 +143,13 @@ namespace Android_Photo_Booth
         {
             if (_downloadProgressBar.Value >= _downloadProgressBar.Maximum)
             {
-                AdbController controller = GetController();
-                await controller.DownloadFilesAsync();
+                if (!_downloading)
+                {
+                    _downloading = true;
+                    AdbController controller = GetController();
+                    await controller.DownloadFilesAsync();
+                    _downloading = false;
+                }
 
                 _downloadProgressBar.Value = _downloadProgressBar.Minimum;
 
