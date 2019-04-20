@@ -107,6 +107,13 @@ namespace Android_Photo_Booth
 
         public async Task OpenCameraAsync()
         {
+            //Opening, pressing back twice to back out of e.g. photo mode, and then opening again
+            await ExecuteAdbCommandAsync($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
+            await Task.Delay(500);
+            await ExecuteAdbCommandAsync($"shell input keyevent 4"); //back
+            await Task.Delay(100);
+            await ExecuteAdbCommandAsync($"shell input keyevent 4"); //back
+            await Task.Delay(100);
             await ExecuteAdbCommandAsync($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
         }
 
@@ -115,34 +122,70 @@ namespace Android_Photo_Booth
             await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_FOCUS");
         }
 
-        public async Task DownloadFilesAsync()
+        public async Task<int> DownloadFilesAsync(int lastKnownCounter)
         {
             List<string> files = await GetStableFileListAsync();
 
             foreach (string file in files)
             {
-                await TryDownloadFileAsync(file);
+                lastKnownCounter = await TryDownloadFileAsync(file, lastKnownCounter);
             }
+
+            return lastKnownCounter;
         }
 
-        private async Task TryDownloadFileAsync(string filename)
+        private async Task<int> TryDownloadFileAsync(string filename, int lastKnownCounter)
         {
             if (ExistsTokenFile(filename))
             {
                 await DeleteIfConfiguredAsync(filename);
-                return;
+                return lastKnownCounter;
             }
 
             await DownloadFileAsync(filename);
 
-            await PublishFileAsync(filename);
+            lastKnownCounter = PublishFile(filename, lastKnownCounter);
 
             CreateTokenFile(filename);
             await DeleteIfConfiguredAsync(filename);
+
+            return lastKnownCounter;
         }
 
-        private async Task PublishFileAsync(string filename)
+        private int PublishFile(string filename, int lastKnownCounter)
         {
+            var counter = lastKnownCounter + 1;
+
+            while (File.Exists(Path.Combine(GetPublishFolder(counter), GetPublishFilename(counter, filename))))
+            {
+                counter++;
+            }
+
+
+            string publishFolder = GetPublishFolder(counter);
+
+            if (!Directory.Exists(publishFolder))
+            {
+                Directory.CreateDirectory(publishFolder);
+            }
+
+            File.Move(Path.Combine(Settings.Default.WorkingFolder, filename),
+                Path.Combine(publishFolder, GetPublishFilename(counter, filename)));
+            return counter;
+        }
+
+        private string GetPublishFilename(int counter, string originalFilename)
+        {
+            return
+                $"{String.Format(Settings.Default.PublishFilenamePattern, counter)}{Path.GetExtension(originalFilename)}";
+        }
+
+        private string GetPublishFolder(int lastKnownCounter)
+        {
+            int lowerLimit = (lastKnownCounter / Settings.Default.PublishFilesPerFolder) * Settings.Default.PublishFilesPerFolder;
+            int upperLimit = lowerLimit + Settings.Default.PublishFilesPerFolder - 1;
+
+            return Path.Combine(Settings.Default.PublishFolder, $"{lowerLimit}-{upperLimit}");
         }
 
         private async Task DownloadFileAsync(string filename)

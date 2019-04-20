@@ -154,5 +154,17 @@ namespace Android_Photo_Booth.Properties {
                 this["DownloadImagesInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int PublishFilesPerFolder {
+            get {
+                return ((int)(this["PublishFilesPerFolder"]));
+            }
+            set {
+                this["PublishFilesPerFolder"] = value;
+            }
+        }
     }
 }

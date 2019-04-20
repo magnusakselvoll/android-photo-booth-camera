@@ -35,5 +35,8 @@
     <Setting Name="DownloadImagesInterval" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">00:00:10</Value>
     </Setting>
+    <Setting Name="PublishFilesPerFolder" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

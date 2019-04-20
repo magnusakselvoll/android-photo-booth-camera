@@ -40,6 +40,7 @@
             System.Windows.Forms.Label publishFolderLabel;
             System.Windows.Forms.Label publishFilenamePatternLabel;
             System.Windows.Forms.Label downloadImagesIntervalLabel;
+            System.Windows.Forms.Label publishFilesPerFolderLabel;
             this._saveButton = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
             this._adbBrowseButton = new System.Windows.Forms.Button();
@@ -60,6 +61,7 @@
             this._workingBrowseButton = new System.Windows.Forms.Button();
             this._publishBrowseButton = new System.Windows.Forms.Button();
             this.downloadImagesIntervalTextBox = new System.Windows.Forms.TextBox();
+            this.publishFilesPerFolderTextBox = new System.Windows.Forms.TextBox();
             adbPathLabel = new System.Windows.Forms.Label();
             cameraAppLabel = new System.Windows.Forms.Label();
             focusKeepaliveIntervalLabel = new System.Windows.Forms.Label();
@@ -71,6 +73,7 @@
             publishFolderLabel = new System.Windows.Forms.Label();
             publishFilenamePatternLabel = new System.Windows.Forms.Label();
             downloadImagesIntervalLabel = new System.Windows.Forms.Label();
+            publishFilesPerFolderLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._settingsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._cameraTypeBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -165,9 +168,18 @@
             publishFilenamePatternLabel.TabIndex = 21;
             publishFilenamePatternLabel.Text = "Publish Filename Pattern:";
             // 
+            // downloadImagesIntervalLabel
+            // 
+            downloadImagesIntervalLabel.AutoSize = true;
+            downloadImagesIntervalLabel.Location = new System.Drawing.Point(12, 333);
+            downloadImagesIntervalLabel.Name = "downloadImagesIntervalLabel";
+            downloadImagesIntervalLabel.Size = new System.Drawing.Size(197, 20);
+            downloadImagesIntervalLabel.TabIndex = 26;
+            downloadImagesIntervalLabel.Text = "Download Images Interval:";
+            // 
             // _saveButton
             // 
-            this._saveButton.Location = new System.Drawing.Point(240, 376);
+            this._saveButton.Location = new System.Drawing.Point(240, 457);
             this._saveButton.Name = "_saveButton";
             this._saveButton.Size = new System.Drawing.Size(75, 35);
             this._saveButton.TabIndex = 23;
@@ -177,7 +189,7 @@
             // 
             // _cancelButton
             // 
-            this._cancelButton.Location = new System.Drawing.Point(321, 376);
+            this._cancelButton.Location = new System.Drawing.Point(321, 457);
             this._cancelButton.Name = "_cancelButton";
             this._cancelButton.Size = new System.Drawing.Size(75, 35);
             this._cancelButton.TabIndex = 24;
@@ -301,7 +313,7 @@
             // 
             // _resetButton
             // 
-            this._resetButton.Location = new System.Drawing.Point(402, 376);
+            this._resetButton.Location = new System.Drawing.Point(402, 457);
             this._resetButton.Name = "_resetButton";
             this._resetButton.Size = new System.Drawing.Size(75, 35);
             this._resetButton.TabIndex = 25;
@@ -329,15 +341,6 @@
             this._publishBrowseButton.UseVisualStyleBackColor = true;
             this._publishBrowseButton.Click += new System.EventHandler(this.OnPublishBrowseButtonClick);
             // 
-            // downloadImagesIntervalLabel
-            // 
-            downloadImagesIntervalLabel.AutoSize = true;
-            downloadImagesIntervalLabel.Location = new System.Drawing.Point(12, 333);
-            downloadImagesIntervalLabel.Name = "downloadImagesIntervalLabel";
-            downloadImagesIntervalLabel.Size = new System.Drawing.Size(197, 20);
-            downloadImagesIntervalLabel.TabIndex = 26;
-            downloadImagesIntervalLabel.Text = "Download Images Interval:";
-            // 
             // downloadImagesIntervalTextBox
             // 
             this.downloadImagesIntervalTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "DownloadImagesInterval", true));
@@ -346,12 +349,33 @@
             this.downloadImagesIntervalTextBox.Size = new System.Drawing.Size(474, 26);
             this.downloadImagesIntervalTextBox.TabIndex = 27;
             // 
+            // publishFilesPerFolderLabel
+            // 
+            publishFilesPerFolderLabel.AutoSize = true;
+            publishFilesPerFolderLabel.Location = new System.Drawing.Point(12, 365);
+            publishFilesPerFolderLabel.Name = "publishFilesPerFolderLabel";
+            publishFilesPerFolderLabel.Size = new System.Drawing.Size(178, 20);
+            publishFilesPerFolderLabel.TabIndex = 28;
+            publishFilesPerFolderLabel.Text = "Publish Files Per Folder:";
+            // 
+            // publishFilesPerFolderTextBox
+            // 
+            this.publishFilesPerFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.publishFilesPerFolderTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "PublishFilesPerFolder", true));
+            this.publishFilesPerFolderTextBox.Location = new System.Drawing.Point(240, 362);
+            this.publishFilesPerFolderTextBox.Name = "publishFilesPerFolderTextBox";
+            this.publishFilesPerFolderTextBox.Size = new System.Drawing.Size(473, 26);
+            this.publishFilesPerFolderTextBox.TabIndex = 29;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(815, 587);
+            this.Controls.Add(publishFilesPerFolderLabel);
+            this.Controls.Add(this.publishFilesPerFolderTextBox);
             this.Controls.Add(downloadImagesIntervalLabel);
             this.Controls.Add(this.downloadImagesIntervalTextBox);
             this.Controls.Add(this._publishBrowseButton);
@@ -411,5 +435,6 @@
         private System.Windows.Forms.Button _workingBrowseButton;
         private System.Windows.Forms.Button _publishBrowseButton;
         private System.Windows.Forms.TextBox downloadImagesIntervalTextBox;
+        private System.Windows.Forms.TextBox publishFilesPerFolderTextBox;
     }
 }

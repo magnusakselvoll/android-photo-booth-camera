@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Android_Photo_Booth.Properties;
@@ -8,9 +7,9 @@ namespace Android_Photo_Booth
 {
     public partial class MainForm : Form
     {
-        private bool _focusLoopRunning;
         private bool _downloadLoopRunning;
-        private bool _downloading;
+        private bool _focusLoopRunning;
+        private int _lastKnownCounter;
 
         public MainForm()
         {
@@ -25,28 +24,27 @@ namespace Android_Photo_Booth
 
         private async void OnDetectDeviceButtonClickAsync(object sender, EventArgs e)
         {
-            AdbController controller = GetController();
+            var controller = GetController();
 
-            (bool connected, AndroidDevice device, string errorMessage) = await controller.TryConnectToDeviceAsync();
+            var (connected, device, errorMessage) = await controller.TryConnectToDeviceAsync();
 
             _deviceTextBox.Text = connected ? device.ToString() : errorMessage;
         }
 
         private void ShowBadAdbPathDialog()
         {
-            MessageBox.Show("The file adb.exe cannot be found at the given path. Please select the correct folder and try again.", "Incorrect adb path",
+            MessageBox.Show(
+                "The file adb.exe cannot be found at the given path. Please select the correct folder and try again.",
+                "Incorrect adb path",
                 MessageBoxButtons.OK);
         }
 
 
         private async void OnOpenCameraButtonClickAsync(object sender, EventArgs e)
         {
-            AdbController controller = GetController();
+            var controller = GetController();
 
-            if (!await controller.IsInteractiveAsync())
-            {
-                await controller.EnableInteractiveAsync();
-            }
+            if (!await controller.IsInteractiveAsync()) await controller.EnableInteractiveAsync();
 
             if (!await controller.IsInteractiveAsync())
             {
@@ -56,14 +54,12 @@ namespace Android_Photo_Booth
 
             await Task.Delay(100);
 
-            if (await controller.IsLockedAsync())
-            {
-                await controller.UnlockAsync(Settings.Default.PinCode);
-            }
+            if (await controller.IsLockedAsync()) await controller.UnlockAsync(Settings.Default.PinCode);
 
             if (await controller.IsLockedAsync())
             {
-                MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked", MessageBoxButtons.OK);
+                MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked",
+                    MessageBoxButtons.OK);
                 return;
             }
 
@@ -76,17 +72,18 @@ namespace Android_Photo_Booth
             {
                 _focusTimer.Stop();
                 _focusProgressBar.Value = _focusProgressBar.Minimum;
+                _focusLoopRunning = false;
                 return;
             }
 
             if (Settings.Default.FocusKeepaliveInterval < TimeSpan.FromSeconds(1))
-            {
                 MessageBox.Show("At least one second focus keepalive interval must be set", "Too short interval",
                     MessageBoxButtons.OK);
-            }
 
-            double totalInterval = Settings.Default.FocusKeepaliveInterval.TotalMilliseconds;
-            int intervalStep = (int) Math.Round(totalInterval / ((double) (_focusProgressBar.Maximum - _focusProgressBar.Minimum) / _focusProgressBar.Step));
+            var totalInterval = Settings.Default.FocusKeepaliveInterval.TotalMilliseconds;
+            var intervalStep = (int) Math.Round(totalInterval /
+                                                ((double) (_focusProgressBar.Maximum - _focusProgressBar.Minimum) /
+                                                 _focusProgressBar.Step));
 
             _focusTimer.Interval = intervalStep;
             _focusTimer.Start();
@@ -104,7 +101,7 @@ namespace Android_Photo_Booth
         {
             if (_focusProgressBar.Value >= _focusProgressBar.Maximum)
             {
-                AdbController controller = GetController();
+                var controller = GetController();
                 await controller.FocusCameraAsync();
 
                 _focusProgressBar.Value = _focusProgressBar.Minimum;
@@ -121,17 +118,18 @@ namespace Android_Photo_Booth
             {
                 _downloadTimer.Stop();
                 _downloadProgressBar.Value = _downloadProgressBar.Minimum;
+                _downloadLoopRunning = false;
                 return;
             }
 
             if (Settings.Default.DownloadImagesInterval < TimeSpan.FromSeconds(1))
-            {
                 MessageBox.Show("At least one second focus keepalive interval must be set", "Too short interval",
                     MessageBoxButtons.OK);
-            }
 
-            double totalInterval = Settings.Default.DownloadImagesInterval.TotalMilliseconds;
-            int intervalStep = (int)Math.Round(totalInterval / ((double)(_downloadProgressBar.Maximum - _downloadProgressBar.Minimum) / _downloadProgressBar.Step));
+            var totalInterval = Settings.Default.DownloadImagesInterval.TotalMilliseconds;
+            var intervalStep = (int) Math.Round(totalInterval /
+                                                ((double) (_downloadProgressBar.Maximum -
+                                                           _downloadProgressBar.Minimum) / _downloadProgressBar.Step));
 
             _downloadTimer.Interval = intervalStep;
             _downloadTimer.Start();
@@ -143,15 +141,17 @@ namespace Android_Photo_Booth
         {
             if (_downloadProgressBar.Value >= _downloadProgressBar.Maximum)
             {
-                if (!_downloading)
+                try
                 {
-                    _downloading = true;
-                    AdbController controller = GetController();
-                    await controller.DownloadFilesAsync();
-                    _downloading = false;
+                    _downloadTimer.Stop();
+                    var controller = GetController();
+                    _lastKnownCounter = await controller.DownloadFilesAsync(_lastKnownCounter);
                 }
-
-                _downloadProgressBar.Value = _downloadProgressBar.Minimum;
+                finally
+                {
+                    _downloadProgressBar.Value = _downloadProgressBar.Minimum;
+                    _downloadTimer.Start();
+                }
 
                 return;
             }
