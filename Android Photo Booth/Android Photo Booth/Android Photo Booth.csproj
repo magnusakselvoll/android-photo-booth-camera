@@ -49,6 +49,9 @@
     <Compile Include="AdbController.cs" />
     <Compile Include="AndroidDevice.cs" />
     <Compile Include="CameraType.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="Logging\LogMessageLevel.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

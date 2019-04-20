@@ -38,6 +38,7 @@
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._settingsButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._logTextBox = new System.Windows.Forms.TextBox();
             this._downloadProgressBar = new System.Windows.Forms.ProgressBar();
             this._downloadButton = new System.Windows.Forms.Button();
             this._focusProgressBar = new System.Windows.Forms.ProgressBar();
@@ -124,6 +125,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._logTextBox);
             this.panel1.Controls.Add(this._downloadProgressBar);
             this.panel1.Controls.Add(this._downloadButton);
             this.panel1.Controls.Add(this._focusProgressBar);
@@ -137,6 +139,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1080, 660);
             this.panel1.TabIndex = 11;
+            // 
+            // _logTextBox
+            // 
+            this._logTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._logTextBox.Location = new System.Drawing.Point(135, 252);
+            this._logTextBox.Multiline = true;
+            this._logTextBox.Name = "_logTextBox";
+            this._logTextBox.ReadOnly = true;
+            this._logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this._logTextBox.Size = new System.Drawing.Size(812, 396);
+            this._logTextBox.TabIndex = 13;
             // 
             // _downloadProgressBar
             // 
@@ -209,6 +224,7 @@
         private System.Windows.Forms.ProgressBar _downloadProgressBar;
         private System.Windows.Forms.Button _downloadButton;
         private System.Windows.Forms.Timer _downloadTimer;
+        private System.Windows.Forms.TextBox _logTextBox;
     }
 }
 

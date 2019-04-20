@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Android_Photo_Booth.Logging;
 using Android_Photo_Booth.Properties;
 
 namespace Android_Photo_Booth
@@ -43,14 +44,23 @@ namespace Android_Photo_Booth
         {
             var outputLines = await ExecuteAdbCommandAsync("shell service call power 12");
 
-            return ParseResult(outputLines);
+            var result = ParseResult(outputLines);
+
+            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {result}");
+
+            return result;
         }
 
         public async Task<bool> IsLockedAsync()
         {
             var outputLines = await ExecuteAdbCommandAsync("shell service call trust 7");
 
-            return ParseResult(outputLines);
+            var result = ParseResult(outputLines);
+
+            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {result}");
+
+
+            return result;
         }
 
         private static bool ParseResult(List<string> outputLines)
@@ -96,6 +106,8 @@ namespace Android_Photo_Booth
         public async Task EnableInteractiveAsync()
         {
             await ExecuteAdbCommandAsync("shell input keyevent 82");
+
+            Logger.Log(LogMessageLevel.Information, "Device interactive enabled");
         }
 
         public async Task UnlockAsync(string pin)
@@ -103,6 +115,8 @@ namespace Android_Photo_Booth
             await ExecuteAdbCommandAsync($"shell input text {pin}");
             await Task.Delay(100);
             await ExecuteAdbCommandAsync("shell input keyevent 66");
+
+            Logger.Log(LogMessageLevel.Information, $"Device unlocked with pin {pin}");
         }
 
         public async Task OpenCameraAsync()
@@ -115,21 +129,29 @@ namespace Android_Photo_Booth
             await ExecuteAdbCommandAsync($"shell input keyevent 4"); //back
             await Task.Delay(100);
             await ExecuteAdbCommandAsync($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
+
+            Logger.Log(LogMessageLevel.Information, "Camera opened");
         }
 
         public async Task FocusCameraAsync()
         {
             await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_FOCUS");
+
+            Logger.Log(LogMessageLevel.Debug, $"Camera focused");
         }
 
         public async Task<int> DownloadFilesAsync(int lastKnownCounter)
         {
             List<string> files = await GetStableFileListAsync();
 
+            Logger.Log(LogMessageLevel.Information, $"{files.Count} files ready for download");
+
             foreach (string file in files)
             {
                 lastKnownCounter = await TryDownloadFileAsync(file, lastKnownCounter);
             }
+
+            Logger.Log(LogMessageLevel.Debug, "All files downloaded");
 
             return lastKnownCounter;
         }
@@ -138,6 +160,8 @@ namespace Android_Photo_Booth
         {
             if (ExistsTokenFile(filename))
             {
+                Logger.Log(LogMessageLevel.Warning, $"File '{filename}' has already been downloaded");
+
                 await DeleteIfConfiguredAsync(filename);
                 return lastKnownCounter;
             }
@@ -154,6 +178,7 @@ namespace Android_Photo_Booth
 
         private int PublishFile(string filename, int lastKnownCounter)
         {
+            Logger.Log(LogMessageLevel.Debug, $"Trying to publish file '{filename}'. Last counter: {lastKnownCounter}");
             var counter = lastKnownCounter + 1;
 
             while (File.Exists(Path.Combine(GetPublishFolder(counter), GetPublishFilename(counter, filename))))
@@ -167,10 +192,16 @@ namespace Android_Photo_Booth
             if (!Directory.Exists(publishFolder))
             {
                 Directory.CreateDirectory(publishFolder);
+                Logger.Log(LogMessageLevel.Information, $"Created new publish directory '{publishFolder}'");
             }
 
+            var publishFilename = GetPublishFilename(counter, filename);
+
             File.Move(Path.Combine(Settings.Default.WorkingFolder, filename),
-                Path.Combine(publishFolder, GetPublishFilename(counter, filename)));
+                Path.Combine(publishFolder, publishFilename));
+
+            Logger.Log(LogMessageLevel.Information, $"Published file '{filename}' as '{publishFilename}'");
+
             return counter;
         }
 
@@ -190,25 +221,39 @@ namespace Android_Photo_Booth
 
         private async Task DownloadFileAsync(string filename)
         {
+            var fullDevicePath = GetFullDevicePath(filename);
+
+            Logger.Log(LogMessageLevel.Debug, $"Downloading file '{fullDevicePath}'");
+
             var outputLines =
-                await ExecuteAdbCommandAsync($"pull {GetFullDevicePath(filename)} {Settings.Default.WorkingFolder}");
+                await ExecuteAdbCommandAsync($"pull {fullDevicePath} {Settings.Default.WorkingFolder}");
 
             if (outputLines.Count != 1 || !outputLines[0].Contains("pulled"))
             {
                 throw new Exception($"Unable to pull file {filename}. Error: {outputLines.FirstOrDefault()}");
             }
+
+            Logger.Log(LogMessageLevel.Information, $"Downloaded file '{filename}'");
         }
 
         private async Task DeleteIfConfiguredAsync(string filename)
         {
+            var fullDevicePath = GetFullDevicePath(filename);
+            Logger.Log(LogMessageLevel.Debug, $"Considering deleting file '{fullDevicePath}'");
+
             if (!Settings.Default.DeleteAfterDownload)
             {
+                Logger.Log(LogMessageLevel.Debug, $"Deletion disabled in settings");
                 return;
             }
 
-            var outputLines = await ExecuteAdbCommandAsync($"shell rm {GetFullDevicePath(filename)}");
+            var outputLines = await ExecuteAdbCommandAsync($"shell rm {fullDevicePath}");
+            if (outputLines.Count != 0)
+            {
+                throw new Exception($"Error deleting file '{fullDevicePath}': {outputLines[0]}");
+            }
 
-            //TODO: outputLines should be empty. Log if not.
+            Logger.Log(LogMessageLevel.Information, $"Deleted file '{filename}'");
         }
 
         private string GetFullDevicePath(string filename)
@@ -240,6 +285,7 @@ namespace Android_Photo_Booth
 
         private async Task<List<string>> GetStableFileListAsync()
         {
+            Logger.Log(LogMessageLevel.Debug, "Assembling list of stable files on device");
             var matchRegex = new Regex(Settings.Default.FileSelectionRegex, RegexOptions.IgnoreCase);
 
             Dictionary<string, int> firstListing = await GetFileListAsync();
@@ -255,23 +301,29 @@ namespace Android_Photo_Booth
 
                 if (!matchRegex.IsMatch(fileName))
                 {
+                    Logger.Log(LogMessageLevel.Debug, $"File '{fileName}' does not match pattern '{matchRegex}'");
                     continue;
                 }
 
                 if (blocksFirstListing == 0)
                 {
+                    Logger.Log(LogMessageLevel.Debug, $"File '{fileName}' is empty.");
                     continue; //Empty
                 }
 
                 if (!secondListing.TryGetValue(fileName, out int blocksSecondListing))
                 {
+                    Logger.Log(LogMessageLevel.Debug, $"File '{fileName}' was not found in second listing.");
                     continue; //file not found in second listing
                 }
 
                 if (blocksFirstListing != blocksSecondListing)
                 {
+                    Logger.Log(LogMessageLevel.Debug, $"File '{fileName}' has changed from {blocksFirstListing} to {blocksSecondListing} blocks and is probably being written to.");
                     continue; //file is being written to
                 }
+
+                Logger.Log(LogMessageLevel.Debug, $"File '{fileName}' is stable and will be included. Size: {blocksFirstListing} blocks.");
 
                 list.Add(fileName);
             }

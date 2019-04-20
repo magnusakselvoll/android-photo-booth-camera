@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Android_Photo_Booth.Logging;
 using Android_Photo_Booth.Properties;
 
 namespace Android_Photo_Booth
@@ -14,6 +15,42 @@ namespace Android_Photo_Booth
         public MainForm()
         {
             InitializeComponent();
+
+            Logger.MessageLogged += OnMessageLogged;
+        }
+
+        private void OnMessageLogged(object sender, LogMessage message)
+        {
+            const int maxLines = 200;
+            const int reducedNumberOfLines = 150;
+
+            var minimumLevel = LogMessageLevel.Information;
+
+#if DEBUG
+            minimumLevel = LogMessageLevel.Debug;
+#endif
+
+            if (message.Level < minimumLevel)
+            {
+                return;
+            }
+
+            if (_logTextBox.Lines.Length >= maxLines)
+            {
+                var destinationArray = new string[reducedNumberOfLines];
+                Array.Copy(_logTextBox.Lines, _logTextBox.Lines.Length - reducedNumberOfLines,
+                    destinationArray, 0, destinationArray.Length);
+
+                _logTextBox.Lines = destinationArray;
+
+            }
+
+            _logTextBox.AppendText(GetLogMessageLine(message));
+        }
+
+        private string GetLogMessageLine(LogMessage message)
+        {
+            return $"[{message.TimestampLocal:s}] {message.Level} - {message.Message}{Environment.NewLine}";
         }
 
         private AdbController GetController()
