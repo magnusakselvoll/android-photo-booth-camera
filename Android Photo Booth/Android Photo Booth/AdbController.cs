@@ -42,20 +42,70 @@ namespace Android_Photo_Booth
 
         public async Task<bool> IsInteractiveAsync()
         {
+            if (Settings.Default.UseNfcScreenApi)
+            {
+                return await IsInteractiveNfcAsync();
+            }
+
             var outputLines = await ExecuteAdbCommandAsync("shell service call power 12");
 
-            var result = ParseResult(outputLines);
+            var result = ParseBinaryResult(outputLines);
 
             Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {result}");
 
             return result;
         }
 
+        private async Task<bool> IsInteractiveNfcAsync()
+        {
+            (bool screenOn, _) = await GetNfcScreenStateAsync();
+
+            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {screenOn}");
+
+            return screenOn;
+        }
+
+        private async Task<(bool screenOn, bool screenLocked)> GetNfcScreenStateAsync()
+        {
+            var outputLines = await ExecuteAdbCommandAsync("shell dumpsys nfc");
+
+            foreach (string line in outputLines.Select(x => x.Trim()))
+            {
+                const string screenStateId = "mScreenState=";
+
+                if (line.StartsWith(screenStateId))
+                {
+                    string value = line.Substring(screenStateId.Length);
+
+                    switch (value.ToUpperInvariant())
+                    {
+                        case "OFF_LOCKED":
+                            return (screenOn: false, screenLocked: true);
+                        case "OFF_UNLOCKED":
+                            return (screenOn: false, screenLocked: false);
+                        case "ON_LOCKED":
+                            return (screenOn: true, screenLocked: true);
+                        case "ON_UNLOCKED":
+                            return (screenOn: true, screenLocked: false);
+                        default:
+                            throw new Exception($"Unexpected screen state: {line}");
+                    }
+                }
+            }
+
+            throw new Exception("Unable to find NFC screen state");
+        }
+
         public async Task<bool> IsLockedAsync()
         {
+            if (Settings.Default.UseNfcScreenApi)
+            {
+                return await IsLockedNfcAsync();
+            }
+
             var outputLines = await ExecuteAdbCommandAsync("shell service call trust 7");
 
-            var result = ParseResult(outputLines);
+            var result = ParseBinaryResult(outputLines);
 
             Logger.Log(LogMessageLevel.Debug, $"IsLocked: {result}");
 
@@ -63,7 +113,16 @@ namespace Android_Photo_Booth
             return result;
         }
 
-        private static bool ParseResult(List<string> outputLines)
+        private async Task<bool> IsLockedNfcAsync()
+        {
+            (_, bool screenLocked) = await GetNfcScreenStateAsync();
+
+            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {screenLocked}");
+
+            return screenLocked;
+        }
+
+        private static bool ParseBinaryResult(List<string> outputLines)
         {
             foreach (var line in outputLines)
             {
@@ -75,7 +134,6 @@ namespace Android_Photo_Booth
 
             throw new Exception(($"Unable to parse result: {outputLines}"));
         }
-
 
         private async Task<List<string>> ExecuteAdbCommandAsync(string arguments)
         {
@@ -91,6 +149,11 @@ namespace Android_Photo_Booth
             // Redirect both streams so we can write/read them.
             // Start the process.
             Process p = Process.Start(si);
+
+            if (p == null)
+            {
+                throw new Exception($"Unable to start process {si.FileName}");
+            }
 
             var list = new List<string>();
 

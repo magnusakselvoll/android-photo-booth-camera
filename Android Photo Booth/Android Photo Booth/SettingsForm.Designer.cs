@@ -41,6 +41,7 @@
             System.Windows.Forms.Label publishFilenamePatternLabel;
             System.Windows.Forms.Label downloadImagesIntervalLabel;
             System.Windows.Forms.Label publishFilesPerFolderLabel;
+            System.Windows.Forms.Label label1;
             this._saveButton = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
             this._adbBrowseButton = new System.Windows.Forms.Button();
@@ -62,6 +63,7 @@
             this._publishBrowseButton = new System.Windows.Forms.Button();
             this.downloadImagesIntervalTextBox = new System.Windows.Forms.TextBox();
             this.publishFilesPerFolderTextBox = new System.Windows.Forms.TextBox();
+            this._useNfcScreenApiCheckBox = new System.Windows.Forms.CheckBox();
             adbPathLabel = new System.Windows.Forms.Label();
             cameraAppLabel = new System.Windows.Forms.Label();
             focusKeepaliveIntervalLabel = new System.Windows.Forms.Label();
@@ -74,6 +76,7 @@
             publishFilenamePatternLabel = new System.Windows.Forms.Label();
             downloadImagesIntervalLabel = new System.Windows.Forms.Label();
             publishFilesPerFolderLabel = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._settingsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._cameraTypeBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -81,127 +84,161 @@
             // adbPathLabel
             // 
             adbPathLabel.AutoSize = true;
-            adbPathLabel.Location = new System.Drawing.Point(12, 13);
+            adbPathLabel.Location = new System.Drawing.Point(8, 8);
+            adbPathLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             adbPathLabel.Name = "adbPathLabel";
-            adbPathLabel.Size = new System.Drawing.Size(79, 20);
+            adbPathLabel.Size = new System.Drawing.Size(54, 13);
             adbPathLabel.TabIndex = 0;
             adbPathLabel.Text = "Adb Path:";
             // 
             // cameraAppLabel
             // 
             cameraAppLabel.AutoSize = true;
-            cameraAppLabel.Location = new System.Drawing.Point(12, 45);
+            cameraAppLabel.Location = new System.Drawing.Point(8, 29);
+            cameraAppLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             cameraAppLabel.Name = "cameraAppLabel";
-            cameraAppLabel.Size = new System.Drawing.Size(102, 20);
+            cameraAppLabel.Size = new System.Drawing.Size(68, 13);
             cameraAppLabel.TabIndex = 3;
             cameraAppLabel.Text = "Camera App:";
             // 
             // focusKeepaliveIntervalLabel
             // 
             focusKeepaliveIntervalLabel.AutoSize = true;
-            focusKeepaliveIntervalLabel.Location = new System.Drawing.Point(12, 79);
+            focusKeepaliveIntervalLabel.Location = new System.Drawing.Point(8, 73);
+            focusKeepaliveIntervalLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             focusKeepaliveIntervalLabel.Name = "focusKeepaliveIntervalLabel";
-            focusKeepaliveIntervalLabel.Size = new System.Drawing.Size(185, 20);
-            focusKeepaliveIntervalLabel.TabIndex = 5;
+            focusKeepaliveIntervalLabel.Size = new System.Drawing.Size(127, 13);
+            focusKeepaliveIntervalLabel.TabIndex = 7;
             focusKeepaliveIntervalLabel.Text = "Focus Keepalive Interval:";
             // 
             // pinCodeLabel
             // 
             pinCodeLabel.AutoSize = true;
-            pinCodeLabel.Location = new System.Drawing.Point(12, 111);
+            pinCodeLabel.Location = new System.Drawing.Point(8, 94);
+            pinCodeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             pinCodeLabel.Name = "pinCodeLabel";
-            pinCodeLabel.Size = new System.Drawing.Size(152, 20);
-            pinCodeLabel.TabIndex = 7;
+            pinCodeLabel.Size = new System.Drawing.Size(102, 13);
+            pinCodeLabel.TabIndex = 9;
             pinCodeLabel.Text = "Pin Code (or empty):";
             // 
             // deviceImageFolderLabel
             // 
             deviceImageFolderLabel.AutoSize = true;
-            deviceImageFolderLabel.Location = new System.Drawing.Point(12, 143);
+            deviceImageFolderLabel.Location = new System.Drawing.Point(8, 115);
+            deviceImageFolderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             deviceImageFolderLabel.Name = "deviceImageFolderLabel";
-            deviceImageFolderLabel.Size = new System.Drawing.Size(159, 20);
-            deviceImageFolderLabel.TabIndex = 9;
+            deviceImageFolderLabel.Size = new System.Drawing.Size(108, 13);
+            deviceImageFolderLabel.TabIndex = 11;
             deviceImageFolderLabel.Text = "Device Image Folder:";
             // 
             // deleteAfterDownloadLabel
             // 
             deleteAfterDownloadLabel.AutoSize = true;
-            deleteAfterDownloadLabel.Location = new System.Drawing.Point(12, 173);
+            deleteAfterDownloadLabel.Location = new System.Drawing.Point(8, 134);
+            deleteAfterDownloadLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             deleteAfterDownloadLabel.Name = "deleteAfterDownloadLabel";
-            deleteAfterDownloadLabel.Size = new System.Drawing.Size(174, 20);
-            deleteAfterDownloadLabel.TabIndex = 11;
+            deleteAfterDownloadLabel.Size = new System.Drawing.Size(117, 13);
+            deleteAfterDownloadLabel.TabIndex = 13;
             deleteAfterDownloadLabel.Text = "Delete After Download:";
             // 
             // workingFolderLabel
             // 
             workingFolderLabel.AutoSize = true;
-            workingFolderLabel.Location = new System.Drawing.Point(12, 237);
+            workingFolderLabel.Location = new System.Drawing.Point(8, 176);
+            workingFolderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             workingFolderLabel.Name = "workingFolderLabel";
-            workingFolderLabel.Size = new System.Drawing.Size(120, 20);
-            workingFolderLabel.TabIndex = 15;
+            workingFolderLabel.Size = new System.Drawing.Size(82, 13);
+            workingFolderLabel.TabIndex = 17;
             workingFolderLabel.Text = "Working Folder:";
             // 
             // fileSelectionRegexLabel
             // 
             fileSelectionRegexLabel.AutoSize = true;
-            fileSelectionRegexLabel.Location = new System.Drawing.Point(12, 205);
+            fileSelectionRegexLabel.Location = new System.Drawing.Point(8, 155);
+            fileSelectionRegexLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             fileSelectionRegexLabel.Name = "fileSelectionRegexLabel";
-            fileSelectionRegexLabel.Size = new System.Drawing.Size(158, 20);
-            fileSelectionRegexLabel.TabIndex = 13;
+            fileSelectionRegexLabel.Size = new System.Drawing.Size(107, 13);
+            fileSelectionRegexLabel.TabIndex = 15;
             fileSelectionRegexLabel.Text = "File Selection Regex:";
             // 
             // publishFolderLabel
             // 
             publishFolderLabel.AutoSize = true;
-            publishFolderLabel.Location = new System.Drawing.Point(12, 269);
+            publishFolderLabel.Location = new System.Drawing.Point(8, 197);
+            publishFolderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             publishFolderLabel.Name = "publishFolderLabel";
-            publishFolderLabel.Size = new System.Drawing.Size(113, 20);
-            publishFolderLabel.TabIndex = 18;
+            publishFolderLabel.Size = new System.Drawing.Size(76, 13);
+            publishFolderLabel.TabIndex = 20;
             publishFolderLabel.Text = "Publish Folder:";
             // 
             // publishFilenamePatternLabel
             // 
             publishFilenamePatternLabel.AutoSize = true;
-            publishFilenamePatternLabel.Location = new System.Drawing.Point(12, 301);
+            publishFilenamePatternLabel.Location = new System.Drawing.Point(8, 218);
+            publishFilenamePatternLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             publishFilenamePatternLabel.Name = "publishFilenamePatternLabel";
-            publishFilenamePatternLabel.Size = new System.Drawing.Size(189, 20);
-            publishFilenamePatternLabel.TabIndex = 21;
+            publishFilenamePatternLabel.Size = new System.Drawing.Size(126, 13);
+            publishFilenamePatternLabel.TabIndex = 23;
             publishFilenamePatternLabel.Text = "Publish Filename Pattern:";
             // 
             // downloadImagesIntervalLabel
             // 
             downloadImagesIntervalLabel.AutoSize = true;
-            downloadImagesIntervalLabel.Location = new System.Drawing.Point(12, 333);
+            downloadImagesIntervalLabel.Location = new System.Drawing.Point(8, 238);
+            downloadImagesIntervalLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             downloadImagesIntervalLabel.Name = "downloadImagesIntervalLabel";
-            downloadImagesIntervalLabel.Size = new System.Drawing.Size(197, 20);
-            downloadImagesIntervalLabel.TabIndex = 26;
+            downloadImagesIntervalLabel.Size = new System.Drawing.Size(133, 13);
+            downloadImagesIntervalLabel.TabIndex = 25;
             downloadImagesIntervalLabel.Text = "Download Images Interval:";
+            // 
+            // publishFilesPerFolderLabel
+            // 
+            publishFilesPerFolderLabel.AutoSize = true;
+            publishFilesPerFolderLabel.Location = new System.Drawing.Point(8, 259);
+            publishFilesPerFolderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            publishFilesPerFolderLabel.Name = "publishFilesPerFolderLabel";
+            publishFilesPerFolderLabel.Size = new System.Drawing.Size(119, 13);
+            publishFilesPerFolderLabel.TabIndex = 27;
+            publishFilesPerFolderLabel.Text = "Publish Files Per Folder:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(8, 53);
+            label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(102, 13);
+            label1.TabIndex = 5;
+            label1.Text = "Use NFC screen api";
             // 
             // _saveButton
             // 
-            this._saveButton.Location = new System.Drawing.Point(240, 457);
+            this._saveButton.Location = new System.Drawing.Point(160, 319);
+            this._saveButton.Margin = new System.Windows.Forms.Padding(2);
             this._saveButton.Name = "_saveButton";
-            this._saveButton.Size = new System.Drawing.Size(75, 35);
-            this._saveButton.TabIndex = 23;
+            this._saveButton.Size = new System.Drawing.Size(50, 23);
+            this._saveButton.TabIndex = 29;
             this._saveButton.Text = "Save";
             this._saveButton.UseVisualStyleBackColor = true;
             this._saveButton.Click += new System.EventHandler(this.OnSaveButtonClick);
             // 
             // _cancelButton
             // 
-            this._cancelButton.Location = new System.Drawing.Point(321, 457);
+            this._cancelButton.Location = new System.Drawing.Point(214, 319);
+            this._cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this._cancelButton.Name = "_cancelButton";
-            this._cancelButton.Size = new System.Drawing.Size(75, 35);
-            this._cancelButton.TabIndex = 24;
+            this._cancelButton.Size = new System.Drawing.Size(50, 23);
+            this._cancelButton.TabIndex = 30;
             this._cancelButton.Text = "Cancel";
             this._cancelButton.UseVisualStyleBackColor = true;
             this._cancelButton.Click += new System.EventHandler(this.OnCancelButtonClick);
             // 
             // _adbBrowseButton
             // 
-            this._adbBrowseButton.Location = new System.Drawing.Point(720, 6);
+            this._adbBrowseButton.Location = new System.Drawing.Point(480, 4);
+            this._adbBrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this._adbBrowseButton.Name = "_adbBrowseButton";
-            this._adbBrowseButton.Size = new System.Drawing.Size(75, 35);
+            this._adbBrowseButton.Size = new System.Drawing.Size(50, 23);
             this._adbBrowseButton.TabIndex = 2;
             this._adbBrowseButton.Text = "Browse";
             this._adbBrowseButton.UseVisualStyleBackColor = true;
@@ -210,9 +247,10 @@
             // adbPathTextBox
             // 
             this.adbPathTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "AdbPath", true));
-            this.adbPathTextBox.Location = new System.Drawing.Point(240, 10);
+            this.adbPathTextBox.Location = new System.Drawing.Point(160, 6);
+            this.adbPathTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.adbPathTextBox.Name = "adbPathTextBox";
-            this.adbPathTextBox.Size = new System.Drawing.Size(474, 26);
+            this.adbPathTextBox.Size = new System.Drawing.Size(317, 20);
             this.adbPathTextBox.TabIndex = 1;
             // 
             // _settingsBindingSource
@@ -226,9 +264,10 @@
             this.cameraAppComboBox.DisplayMember = "Name";
             this.cameraAppComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cameraAppComboBox.FormattingEnabled = true;
-            this.cameraAppComboBox.Location = new System.Drawing.Point(240, 42);
+            this.cameraAppComboBox.Location = new System.Drawing.Point(160, 27);
+            this.cameraAppComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.cameraAppComboBox.Name = "cameraAppComboBox";
-            this.cameraAppComboBox.Size = new System.Drawing.Size(474, 28);
+            this.cameraAppComboBox.Size = new System.Drawing.Size(317, 21);
             this.cameraAppComboBox.TabIndex = 4;
             this.cameraAppComboBox.ValueMember = "Action";
             // 
@@ -239,36 +278,40 @@
             // focusKeepaliveIntervalTextBox
             // 
             this.focusKeepaliveIntervalTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "FocusKeepaliveInterval", true));
-            this.focusKeepaliveIntervalTextBox.Location = new System.Drawing.Point(240, 76);
+            this.focusKeepaliveIntervalTextBox.Location = new System.Drawing.Point(160, 71);
+            this.focusKeepaliveIntervalTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.focusKeepaliveIntervalTextBox.Name = "focusKeepaliveIntervalTextBox";
-            this.focusKeepaliveIntervalTextBox.Size = new System.Drawing.Size(474, 26);
-            this.focusKeepaliveIntervalTextBox.TabIndex = 6;
+            this.focusKeepaliveIntervalTextBox.Size = new System.Drawing.Size(317, 20);
+            this.focusKeepaliveIntervalTextBox.TabIndex = 8;
             // 
             // pinCodeTextBox
             // 
             this.pinCodeTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "PinCode", true));
-            this.pinCodeTextBox.Location = new System.Drawing.Point(240, 108);
+            this.pinCodeTextBox.Location = new System.Drawing.Point(160, 92);
+            this.pinCodeTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.pinCodeTextBox.Name = "pinCodeTextBox";
-            this.pinCodeTextBox.Size = new System.Drawing.Size(474, 26);
-            this.pinCodeTextBox.TabIndex = 8;
+            this.pinCodeTextBox.Size = new System.Drawing.Size(317, 20);
+            this.pinCodeTextBox.TabIndex = 10;
             // 
             // deviceImageFolderTextBox
             // 
             this.deviceImageFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.deviceImageFolderTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "DeviceImageFolder", true));
-            this.deviceImageFolderTextBox.Location = new System.Drawing.Point(240, 140);
+            this.deviceImageFolderTextBox.Location = new System.Drawing.Point(160, 113);
+            this.deviceImageFolderTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.deviceImageFolderTextBox.Name = "deviceImageFolderTextBox";
-            this.deviceImageFolderTextBox.Size = new System.Drawing.Size(473, 26);
-            this.deviceImageFolderTextBox.TabIndex = 10;
+            this.deviceImageFolderTextBox.Size = new System.Drawing.Size(317, 20);
+            this.deviceImageFolderTextBox.TabIndex = 12;
             // 
             // deleteAfterDownloadCheckBox
             // 
             this.deleteAfterDownloadCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this._settingsBindingSource, "DeleteAfterDownload", true));
-            this.deleteAfterDownloadCheckBox.Location = new System.Drawing.Point(241, 172);
+            this.deleteAfterDownloadCheckBox.Location = new System.Drawing.Point(161, 134);
+            this.deleteAfterDownloadCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.deleteAfterDownloadCheckBox.Name = "deleteAfterDownloadCheckBox";
-            this.deleteAfterDownloadCheckBox.Size = new System.Drawing.Size(104, 24);
-            this.deleteAfterDownloadCheckBox.TabIndex = 12;
+            this.deleteAfterDownloadCheckBox.Size = new System.Drawing.Size(69, 16);
+            this.deleteAfterDownloadCheckBox.TabIndex = 14;
             this.deleteAfterDownloadCheckBox.UseVisualStyleBackColor = true;
             // 
             // workingFolderTextBox
@@ -276,67 +319,74 @@
             this.workingFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.workingFolderTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "WorkingFolder", true));
-            this.workingFolderTextBox.Location = new System.Drawing.Point(240, 234);
+            this.workingFolderTextBox.Location = new System.Drawing.Point(160, 174);
+            this.workingFolderTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.workingFolderTextBox.Name = "workingFolderTextBox";
-            this.workingFolderTextBox.Size = new System.Drawing.Size(473, 26);
-            this.workingFolderTextBox.TabIndex = 16;
+            this.workingFolderTextBox.Size = new System.Drawing.Size(317, 20);
+            this.workingFolderTextBox.TabIndex = 18;
             // 
             // fileSelectionRegexTextBox
             // 
             this.fileSelectionRegexTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fileSelectionRegexTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "FileSelectionRegex", true));
-            this.fileSelectionRegexTextBox.Location = new System.Drawing.Point(240, 202);
+            this.fileSelectionRegexTextBox.Location = new System.Drawing.Point(160, 153);
+            this.fileSelectionRegexTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.fileSelectionRegexTextBox.Name = "fileSelectionRegexTextBox";
-            this.fileSelectionRegexTextBox.Size = new System.Drawing.Size(473, 26);
-            this.fileSelectionRegexTextBox.TabIndex = 14;
+            this.fileSelectionRegexTextBox.Size = new System.Drawing.Size(317, 20);
+            this.fileSelectionRegexTextBox.TabIndex = 16;
             // 
             // publishFolderTextBox
             // 
             this.publishFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.publishFolderTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "PublishFolder", true));
-            this.publishFolderTextBox.Location = new System.Drawing.Point(240, 266);
+            this.publishFolderTextBox.Location = new System.Drawing.Point(160, 195);
+            this.publishFolderTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.publishFolderTextBox.Name = "publishFolderTextBox";
-            this.publishFolderTextBox.Size = new System.Drawing.Size(473, 26);
-            this.publishFolderTextBox.TabIndex = 19;
+            this.publishFolderTextBox.Size = new System.Drawing.Size(317, 20);
+            this.publishFolderTextBox.TabIndex = 21;
             // 
             // publishFilenamePatternTextBox
             // 
             this.publishFilenamePatternTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.publishFilenamePatternTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "PublishFilenamePattern", true));
-            this.publishFilenamePatternTextBox.Location = new System.Drawing.Point(240, 298);
+            this.publishFilenamePatternTextBox.Location = new System.Drawing.Point(160, 216);
+            this.publishFilenamePatternTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.publishFilenamePatternTextBox.Name = "publishFilenamePatternTextBox";
-            this.publishFilenamePatternTextBox.Size = new System.Drawing.Size(473, 26);
-            this.publishFilenamePatternTextBox.TabIndex = 22;
+            this.publishFilenamePatternTextBox.Size = new System.Drawing.Size(317, 20);
+            this.publishFilenamePatternTextBox.TabIndex = 24;
             // 
             // _resetButton
             // 
-            this._resetButton.Location = new System.Drawing.Point(402, 457);
+            this._resetButton.Location = new System.Drawing.Point(268, 319);
+            this._resetButton.Margin = new System.Windows.Forms.Padding(2);
             this._resetButton.Name = "_resetButton";
-            this._resetButton.Size = new System.Drawing.Size(75, 35);
-            this._resetButton.TabIndex = 25;
+            this._resetButton.Size = new System.Drawing.Size(50, 23);
+            this._resetButton.TabIndex = 31;
             this._resetButton.Text = "Reset";
             this._resetButton.UseVisualStyleBackColor = true;
             this._resetButton.Click += new System.EventHandler(this.OnResetButtonClick);
             // 
             // _workingBrowseButton
             // 
-            this._workingBrowseButton.Location = new System.Drawing.Point(720, 230);
+            this._workingBrowseButton.Location = new System.Drawing.Point(480, 171);
+            this._workingBrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this._workingBrowseButton.Name = "_workingBrowseButton";
-            this._workingBrowseButton.Size = new System.Drawing.Size(75, 35);
-            this._workingBrowseButton.TabIndex = 17;
+            this._workingBrowseButton.Size = new System.Drawing.Size(50, 23);
+            this._workingBrowseButton.TabIndex = 19;
             this._workingBrowseButton.Text = "Browse";
             this._workingBrowseButton.UseVisualStyleBackColor = true;
             this._workingBrowseButton.Click += new System.EventHandler(this.OnWorkingBrowseButtonClick);
             // 
             // _publishBrowseButton
             // 
-            this._publishBrowseButton.Location = new System.Drawing.Point(720, 262);
+            this._publishBrowseButton.Location = new System.Drawing.Point(480, 192);
+            this._publishBrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this._publishBrowseButton.Name = "_publishBrowseButton";
-            this._publishBrowseButton.Size = new System.Drawing.Size(75, 35);
-            this._publishBrowseButton.TabIndex = 20;
+            this._publishBrowseButton.Size = new System.Drawing.Size(50, 23);
+            this._publishBrowseButton.TabIndex = 22;
             this._publishBrowseButton.Text = "Browse";
             this._publishBrowseButton.UseVisualStyleBackColor = true;
             this._publishBrowseButton.Click += new System.EventHandler(this.OnPublishBrowseButtonClick);
@@ -344,36 +394,41 @@
             // downloadImagesIntervalTextBox
             // 
             this.downloadImagesIntervalTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "DownloadImagesInterval", true));
-            this.downloadImagesIntervalTextBox.Location = new System.Drawing.Point(240, 330);
+            this.downloadImagesIntervalTextBox.Location = new System.Drawing.Point(160, 236);
+            this.downloadImagesIntervalTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.downloadImagesIntervalTextBox.Name = "downloadImagesIntervalTextBox";
-            this.downloadImagesIntervalTextBox.Size = new System.Drawing.Size(474, 26);
-            this.downloadImagesIntervalTextBox.TabIndex = 27;
-            // 
-            // publishFilesPerFolderLabel
-            // 
-            publishFilesPerFolderLabel.AutoSize = true;
-            publishFilesPerFolderLabel.Location = new System.Drawing.Point(12, 365);
-            publishFilesPerFolderLabel.Name = "publishFilesPerFolderLabel";
-            publishFilesPerFolderLabel.Size = new System.Drawing.Size(178, 20);
-            publishFilesPerFolderLabel.TabIndex = 28;
-            publishFilesPerFolderLabel.Text = "Publish Files Per Folder:";
+            this.downloadImagesIntervalTextBox.Size = new System.Drawing.Size(317, 20);
+            this.downloadImagesIntervalTextBox.TabIndex = 26;
             // 
             // publishFilesPerFolderTextBox
             // 
             this.publishFilesPerFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.publishFilesPerFolderTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "PublishFilesPerFolder", true));
-            this.publishFilesPerFolderTextBox.Location = new System.Drawing.Point(240, 362);
+            this.publishFilesPerFolderTextBox.Location = new System.Drawing.Point(160, 257);
+            this.publishFilesPerFolderTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.publishFilesPerFolderTextBox.Name = "publishFilesPerFolderTextBox";
-            this.publishFilesPerFolderTextBox.Size = new System.Drawing.Size(473, 26);
-            this.publishFilesPerFolderTextBox.TabIndex = 29;
+            this.publishFilesPerFolderTextBox.Size = new System.Drawing.Size(317, 20);
+            this.publishFilesPerFolderTextBox.TabIndex = 28;
+            // 
+            // _useNfcScreenApiCheckBox
+            // 
+            this._useNfcScreenApiCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this._settingsBindingSource, "UseNfcScreenApi", true));
+            this._useNfcScreenApiCheckBox.Location = new System.Drawing.Point(160, 52);
+            this._useNfcScreenApiCheckBox.Margin = new System.Windows.Forms.Padding(2);
+            this._useNfcScreenApiCheckBox.Name = "_useNfcScreenApiCheckBox";
+            this._useNfcScreenApiCheckBox.Size = new System.Drawing.Size(69, 16);
+            this._useNfcScreenApiCheckBox.TabIndex = 6;
+            this._useNfcScreenApiCheckBox.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(815, 587);
+            this.ClientSize = new System.Drawing.Size(543, 382);
+            this.Controls.Add(label1);
+            this.Controls.Add(this._useNfcScreenApiCheckBox);
             this.Controls.Add(publishFilesPerFolderLabel);
             this.Controls.Add(this.publishFilesPerFolderTextBox);
             this.Controls.Add(downloadImagesIntervalLabel);
@@ -404,6 +459,7 @@
             this.Controls.Add(this._adbBrowseButton);
             this.Controls.Add(this._cancelButton);
             this.Controls.Add(this._saveButton);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SettingsForm";
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.OnSettingsFormLoad);
@@ -436,5 +492,6 @@
         private System.Windows.Forms.Button _publishBrowseButton;
         private System.Windows.Forms.TextBox downloadImagesIntervalTextBox;
         private System.Windows.Forms.TextBox publishFilesPerFolderTextBox;
+        private System.Windows.Forms.CheckBox _useNfcScreenApiCheckBox;
     }
 }

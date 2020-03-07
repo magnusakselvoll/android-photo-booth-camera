@@ -51,10 +51,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 13);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(3, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 20);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Device";
             // 
@@ -62,20 +61,18 @@
             // 
             this._deviceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._deviceTextBox.Location = new System.Drawing.Point(135, 10);
-            this._deviceTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._deviceTextBox.Location = new System.Drawing.Point(90, 6);
             this._deviceTextBox.Name = "_deviceTextBox";
             this._deviceTextBox.ReadOnly = true;
-            this._deviceTextBox.Size = new System.Drawing.Size(812, 26);
+            this._deviceTextBox.Size = new System.Drawing.Size(543, 20);
             this._deviceTextBox.TabIndex = 4;
             // 
             // _detectDeviceButton
             // 
             this._detectDeviceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._detectDeviceButton.Location = new System.Drawing.Point(955, 6);
-            this._detectDeviceButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._detectDeviceButton.Location = new System.Drawing.Point(637, 4);
             this._detectDeviceButton.Name = "_detectDeviceButton";
-            this._detectDeviceButton.Size = new System.Drawing.Size(112, 35);
+            this._detectDeviceButton.Size = new System.Drawing.Size(75, 23);
             this._detectDeviceButton.TabIndex = 5;
             this._detectDeviceButton.Text = "Detect";
             this._detectDeviceButton.UseVisualStyleBackColor = true;
@@ -83,10 +80,9 @@
             // 
             // _openCameraButton
             // 
-            this._openCameraButton.Location = new System.Drawing.Point(135, 82);
-            this._openCameraButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._openCameraButton.Location = new System.Drawing.Point(90, 53);
             this._openCameraButton.Name = "_openCameraButton";
-            this._openCameraButton.Size = new System.Drawing.Size(136, 35);
+            this._openCameraButton.Size = new System.Drawing.Size(91, 23);
             this._openCameraButton.TabIndex = 8;
             this._openCameraButton.Text = "Open  camera";
             this._openCameraButton.UseVisualStyleBackColor = true;
@@ -94,10 +90,9 @@
             // 
             // _focusButton
             // 
-            this._focusButton.Location = new System.Drawing.Point(135, 127);
-            this._focusButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._focusButton.Location = new System.Drawing.Point(90, 83);
             this._focusButton.Name = "_focusButton";
-            this._focusButton.Size = new System.Drawing.Size(136, 35);
+            this._focusButton.Size = new System.Drawing.Size(91, 23);
             this._focusButton.TabIndex = 9;
             this._focusButton.Text = "Focus loop";
             this._focusButton.UseVisualStyleBackColor = true;
@@ -110,7 +105,7 @@
             this._settingsButton});
             this._toolStrip.Location = new System.Drawing.Point(0, 0);
             this._toolStrip.Name = "_toolStrip";
-            this._toolStrip.Size = new System.Drawing.Size(1080, 32);
+            this._toolStrip.Size = new System.Drawing.Size(720, 25);
             this._toolStrip.TabIndex = 10;
             // 
             // _settingsButton
@@ -119,7 +114,7 @@
             this._settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("_settingsButton.Image")));
             this._settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._settingsButton.Name = "_settingsButton";
-            this._settingsButton.Size = new System.Drawing.Size(80, 29);
+            this._settingsButton.Size = new System.Drawing.Size(53, 22);
             this._settingsButton.Text = "Settings";
             this._settingsButton.Click += new System.EventHandler(this.OnSettingsButtonClick);
             // 
@@ -135,9 +130,10 @@
             this.panel1.Controls.Add(this._detectDeviceButton);
             this.panel1.Controls.Add(this._openCameraButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 32);
+            this.panel1.Location = new System.Drawing.Point(0, 25);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1080, 660);
+            this.panel1.Size = new System.Drawing.Size(720, 425);
             this.panel1.TabIndex = 11;
             // 
             // _logTextBox
@@ -145,29 +141,30 @@
             this._logTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._logTextBox.Location = new System.Drawing.Point(135, 252);
+            this._logTextBox.Location = new System.Drawing.Point(90, 250);
+            this._logTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._logTextBox.Multiline = true;
             this._logTextBox.Name = "_logTextBox";
             this._logTextBox.ReadOnly = true;
             this._logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this._logTextBox.Size = new System.Drawing.Size(812, 396);
+            this._logTextBox.Size = new System.Drawing.Size(543, 169);
             this._logTextBox.TabIndex = 13;
             // 
             // _downloadProgressBar
             // 
             this._downloadProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._downloadProgressBar.Location = new System.Drawing.Point(278, 172);
+            this._downloadProgressBar.Location = new System.Drawing.Point(185, 112);
+            this._downloadProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._downloadProgressBar.Name = "_downloadProgressBar";
-            this._downloadProgressBar.Size = new System.Drawing.Size(669, 35);
+            this._downloadProgressBar.Size = new System.Drawing.Size(446, 23);
             this._downloadProgressBar.TabIndex = 12;
             // 
             // _downloadButton
             // 
-            this._downloadButton.Location = new System.Drawing.Point(135, 172);
-            this._downloadButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._downloadButton.Location = new System.Drawing.Point(90, 112);
             this._downloadButton.Name = "_downloadButton";
-            this._downloadButton.Size = new System.Drawing.Size(136, 35);
+            this._downloadButton.Size = new System.Drawing.Size(91, 23);
             this._downloadButton.TabIndex = 11;
             this._downloadButton.Text = "Download loop";
             this._downloadButton.UseVisualStyleBackColor = true;
@@ -177,9 +174,10 @@
             // 
             this._focusProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._focusProgressBar.Location = new System.Drawing.Point(278, 127);
+            this._focusProgressBar.Location = new System.Drawing.Point(185, 83);
+            this._focusProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._focusProgressBar.Name = "_focusProgressBar";
-            this._focusProgressBar.Size = new System.Drawing.Size(669, 35);
+            this._focusProgressBar.Size = new System.Drawing.Size(446, 23);
             this._focusProgressBar.TabIndex = 10;
             // 
             // _focusTimer
@@ -192,12 +190,11 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1080, 692);
+            this.ClientSize = new System.Drawing.Size(720, 450);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this._toolStrip);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "Android Photo Booth";
             this._toolStrip.ResumeLayout(false);

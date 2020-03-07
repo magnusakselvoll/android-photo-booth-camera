@@ -81,23 +81,31 @@ namespace Android_Photo_Booth
         {
             var controller = GetController();
 
-            if (!await controller.IsInteractiveAsync()) await controller.EnableInteractiveAsync();
-
             if (!await controller.IsInteractiveAsync())
             {
-                MessageBox.Show("Unable to activate device screen", "Device not interactive", MessageBoxButtons.OK);
-                return;
+                await controller.EnableInteractiveAsync();
+             
+                await Task.Delay(500);
+
+                if (!await controller.IsInteractiveAsync())
+                {
+                    MessageBox.Show("Unable to activate device screen", "Device not interactive", MessageBoxButtons.OK);
+                    return;
+                }
             }
-
-            await Task.Delay(100);
-
-            if (await controller.IsLockedAsync()) await controller.UnlockAsync(Settings.Default.PinCode);
 
             if (await controller.IsLockedAsync())
             {
-                MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked",
-                    MessageBoxButtons.OK);
-                return;
+                await controller.UnlockAsync(Settings.Default.PinCode);
+
+                await Task.Delay(1000);
+                
+                if (await controller.IsLockedAsync())
+                {
+                    MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked",
+                        MessageBoxButtons.OK);
+                    return;
+                }
             }
 
             await controller.OpenCameraAsync();
