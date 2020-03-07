@@ -11,6 +11,7 @@ namespace Android_Photo_Booth
         private bool _downloadLoopRunning;
         private bool _focusLoopRunning;
         private int _lastKnownCounter;
+        private DateTime _lastCameraOpen;
 
         public MainForm()
         {
@@ -79,12 +80,17 @@ namespace Android_Photo_Booth
 
         private async void OnOpenCameraButtonClickAsync(object sender, EventArgs e)
         {
+            await OpenCameraSafely();
+        }
+
+        private async Task OpenCameraSafely()
+        {
             var controller = GetController();
 
             if (!await controller.IsInteractiveAsync())
             {
                 await controller.EnableInteractiveAsync();
-             
+
                 await Task.Delay(500);
 
                 if (!await controller.IsInteractiveAsync())
@@ -99,7 +105,7 @@ namespace Android_Photo_Booth
                 await controller.UnlockAsync(Settings.Default.PinCode);
 
                 await Task.Delay(1000);
-                
+
                 if (await controller.IsLockedAsync())
                 {
                     MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked",
@@ -109,6 +115,8 @@ namespace Android_Photo_Booth
             }
 
             await controller.OpenCameraAsync();
+
+            _lastCameraOpen = DateTime.UtcNow;
         }
 
         private void OnFocusButtonClick(object sender, EventArgs e)
@@ -202,6 +210,19 @@ namespace Android_Photo_Booth
             }
 
             _downloadProgressBar.PerformStep();
+        }
+
+        private async void OnTakeSinglePhotoButtonClickedAsync(object sender, EventArgs e)
+        {
+            AdbController controller = GetController();
+
+            if (_lastCameraOpen + Settings.Default.CameraOpenTimeout < DateTime.UtcNow
+                || !await controller.IsInteractiveAndUnlocked())
+            {
+                await OpenCameraSafely();
+            }
+
+            await controller.TakeSinglePhotoAsync();
         }
     }
 }

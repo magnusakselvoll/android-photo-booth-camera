@@ -178,5 +178,17 @@ namespace Android_Photo_Booth.Properties {
                 this["UseNfcScreenApi"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:30")]
+        public global::System.TimeSpan CameraOpenTimeout {
+            get {
+                return ((global::System.TimeSpan)(this["CameraOpenTimeout"]));
+            }
+            set {
+                this["CameraOpenTimeout"] = value;
+            }
+        }
     }
 }

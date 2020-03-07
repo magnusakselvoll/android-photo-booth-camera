@@ -44,6 +44,7 @@
             this._focusProgressBar = new System.Windows.Forms.ProgressBar();
             this._focusTimer = new System.Windows.Forms.Timer(this.components);
             this._downloadTimer = new System.Windows.Forms.Timer(this.components);
+            this._takeSinglePhotoButton = new System.Windows.Forms.Button();
             this._toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -120,6 +121,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._takeSinglePhotoButton);
             this.panel1.Controls.Add(this._logTextBox);
             this.panel1.Controls.Add(this._downloadProgressBar);
             this.panel1.Controls.Add(this._downloadButton);
@@ -131,7 +133,7 @@
             this.panel1.Controls.Add(this._openCameraButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 25);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(720, 425);
             this.panel1.TabIndex = 11;
@@ -142,7 +144,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._logTextBox.Location = new System.Drawing.Point(90, 250);
-            this._logTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._logTextBox.Margin = new System.Windows.Forms.Padding(2);
             this._logTextBox.Multiline = true;
             this._logTextBox.Name = "_logTextBox";
             this._logTextBox.ReadOnly = true;
@@ -155,7 +157,7 @@
             this._downloadProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._downloadProgressBar.Location = new System.Drawing.Point(185, 112);
-            this._downloadProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._downloadProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this._downloadProgressBar.Name = "_downloadProgressBar";
             this._downloadProgressBar.Size = new System.Drawing.Size(446, 23);
             this._downloadProgressBar.TabIndex = 12;
@@ -175,7 +177,7 @@
             this._focusProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._focusProgressBar.Location = new System.Drawing.Point(185, 83);
-            this._focusProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._focusProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this._focusProgressBar.Name = "_focusProgressBar";
             this._focusProgressBar.Size = new System.Drawing.Size(446, 23);
             this._focusProgressBar.TabIndex = 10;
@@ -187,6 +189,16 @@
             // _downloadTimer
             // 
             this._downloadTimer.Tick += new System.EventHandler(this.OnDownloadTimerTickAsync);
+            // 
+            // _takeSinglePhotoButton
+            // 
+            this._takeSinglePhotoButton.Location = new System.Drawing.Point(188, 52);
+            this._takeSinglePhotoButton.Name = "_takeSinglePhotoButton";
+            this._takeSinglePhotoButton.Size = new System.Drawing.Size(118, 23);
+            this._takeSinglePhotoButton.TabIndex = 14;
+            this._takeSinglePhotoButton.Text = "Take single photo";
+            this._takeSinglePhotoButton.UseVisualStyleBackColor = true;
+            this._takeSinglePhotoButton.Click += new System.EventHandler(this.OnTakeSinglePhotoButtonClickedAsync);
             // 
             // MainForm
             // 
@@ -222,6 +234,7 @@
         private System.Windows.Forms.Button _downloadButton;
         private System.Windows.Forms.Timer _downloadTimer;
         private System.Windows.Forms.TextBox _logTextBox;
+        private System.Windows.Forms.Button _takeSinglePhotoButton;
     }
 }
 

@@ -42,6 +42,7 @@
             System.Windows.Forms.Label downloadImagesIntervalLabel;
             System.Windows.Forms.Label publishFilesPerFolderLabel;
             System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
             this._saveButton = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
             this._adbBrowseButton = new System.Windows.Forms.Button();
@@ -64,6 +65,7 @@
             this.downloadImagesIntervalTextBox = new System.Windows.Forms.TextBox();
             this.publishFilesPerFolderTextBox = new System.Windows.Forms.TextBox();
             this._useNfcScreenApiCheckBox = new System.Windows.Forms.CheckBox();
+            this._cameraOpenTimeoutCheckBox = new System.Windows.Forms.TextBox();
             adbPathLabel = new System.Windows.Forms.Label();
             cameraAppLabel = new System.Windows.Forms.Label();
             focusKeepaliveIntervalLabel = new System.Windows.Forms.Label();
@@ -77,6 +79,7 @@
             downloadImagesIntervalLabel = new System.Windows.Forms.Label();
             publishFilesPerFolderLabel = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._settingsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._cameraTypeBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -421,12 +424,35 @@
             this._useNfcScreenApiCheckBox.TabIndex = 6;
             this._useNfcScreenApiCheckBox.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(8, 283);
+            label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(107, 13);
+            label2.TabIndex = 32;
+            label2.Text = "Camera open timeout";
+            label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // _cameraOpenTimeoutCheckBox
+            // 
+            this._cameraOpenTimeoutCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "CameraOpenTimeout", true));
+            this._cameraOpenTimeoutCheckBox.Location = new System.Drawing.Point(160, 281);
+            this._cameraOpenTimeoutCheckBox.Margin = new System.Windows.Forms.Padding(2);
+            this._cameraOpenTimeoutCheckBox.Name = "_cameraOpenTimeoutCheckBox";
+            this._cameraOpenTimeoutCheckBox.Size = new System.Drawing.Size(317, 20);
+            this._cameraOpenTimeoutCheckBox.TabIndex = 33;
+            this._cameraOpenTimeoutCheckBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(543, 382);
+            this.Controls.Add(label2);
+            this.Controls.Add(this._cameraOpenTimeoutCheckBox);
             this.Controls.Add(label1);
             this.Controls.Add(this._useNfcScreenApiCheckBox);
             this.Controls.Add(publishFilesPerFolderLabel);
@@ -493,5 +519,6 @@
         private System.Windows.Forms.TextBox downloadImagesIntervalTextBox;
         private System.Windows.Forms.TextBox publishFilesPerFolderTextBox;
         private System.Windows.Forms.CheckBox _useNfcScreenApiCheckBox;
+        private System.Windows.Forms.TextBox _cameraOpenTimeoutCheckBox;
     }
 }

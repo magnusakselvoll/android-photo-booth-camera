@@ -40,6 +40,26 @@ namespace Android_Photo_Booth
             return (false, null, "No device found");
         }
 
+        public async Task<bool> IsInteractiveAndUnlocked()
+        {
+            if (Settings.Default.UseNfcScreenApi)
+            {
+                return await IsInteractiveAndUnlockedNfcAsync();
+            }
+
+            return await IsInteractiveAsync() && !await IsLockedAsync();
+        }
+
+        private async Task<bool> IsInteractiveAndUnlockedNfcAsync()
+        {
+            (bool screenOn, bool screenLocked) = await GetNfcScreenStateAsync();
+
+            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {screenOn}");
+            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {screenLocked}");
+
+            return screenOn && !screenLocked;
+        }
+
         public async Task<bool> IsInteractiveAsync()
         {
             if (Settings.Default.UseNfcScreenApi)
@@ -415,6 +435,13 @@ namespace Android_Photo_Booth
             }
 
             return listing;
+        }
+
+        public async Task TakeSinglePhotoAsync()
+        {
+            await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_CAMERA");
+
+            Logger.Log(LogMessageLevel.Debug, $"Photo taken");
         }
     }
 }
