@@ -11,7 +11,7 @@ namespace Android_Photo_Booth
         private bool _downloadLoopRunning;
         private bool _focusLoopRunning;
         private int _lastKnownCounter;
-        private DateTime _lastCameraOpen;
+        private DateTime _lastCameraAction;
 
         public MainForm()
         {
@@ -91,9 +91,22 @@ namespace Android_Photo_Booth
             {
                 await controller.EnableInteractiveAsync();
 
-                await Task.Delay(500);
+                int retries = 0;
+                bool isInteractive = false;
 
-                if (!await controller.IsInteractiveAsync())
+                while (!isInteractive)
+                {
+                    await Task.Delay(200);
+
+                    isInteractive = await controller.IsInteractiveAsync();
+
+                    if (++retries >= 5)
+                    {
+                        break;
+                    }
+                }
+
+                if (!isInteractive)
                 {
                     MessageBox.Show("Unable to activate device screen", "Device not interactive", MessageBoxButtons.OK);
                     return;
@@ -104,9 +117,22 @@ namespace Android_Photo_Booth
             {
                 await controller.UnlockAsync(Settings.Default.PinCode);
 
-                await Task.Delay(1000);
+                int retries = 0;
+                bool isLocked = true;
 
-                if (await controller.IsLockedAsync())
+                while (isLocked)
+                {
+                    await Task.Delay(200);
+
+                    isLocked = await controller.IsLockedAsync();
+
+                    if (++retries >= 10)
+                    {
+                        break;
+                    }
+                }
+
+                if (isLocked)
                 {
                     MessageBox.Show("Unable to unlock device. Is the pin code correct?", "Device locked",
                         MessageBoxButtons.OK);
@@ -116,7 +142,12 @@ namespace Android_Photo_Booth
 
             await controller.OpenCameraAsync();
 
-            _lastCameraOpen = DateTime.UtcNow;
+            UpdateLastCameraAction();
+        }
+
+        private void UpdateLastCameraAction()
+        {
+            _lastCameraAction = DateTime.UtcNow;
         }
 
         private void OnFocusButtonClick(object sender, EventArgs e)
@@ -156,6 +187,8 @@ namespace Android_Photo_Booth
             {
                 var controller = GetController();
                 await controller.FocusCameraAsync();
+
+                UpdateLastCameraAction();
 
                 _focusProgressBar.Value = _focusProgressBar.Minimum;
 
@@ -216,13 +249,17 @@ namespace Android_Photo_Booth
         {
             AdbController controller = GetController();
 
-            if (_lastCameraOpen + Settings.Default.CameraOpenTimeout < DateTime.UtcNow
+            if (_lastCameraAction + Settings.Default.CameraOpenTimeout < DateTime.UtcNow
                 || !await controller.IsInteractiveAndUnlocked())
             {
                 await OpenCameraSafely();
+
+                await Task.Delay(1000);
             }
 
             await controller.TakeSinglePhotoAsync();
+
+            UpdateLastCameraAction();
         }
     }
 }

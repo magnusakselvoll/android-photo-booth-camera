@@ -439,7 +439,7 @@ namespace Android_Photo_Booth
 
         public async Task TakeSinglePhotoAsync()
         {
-            await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_CAMERA");
+            await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_VOLUME_UP");
 
             Logger.Log(LogMessageLevel.Debug, $"Photo taken");
         }
