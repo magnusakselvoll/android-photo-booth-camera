@@ -10,9 +10,9 @@ namespace Android_Photo_Booth.Logging
 
         public static IReadOnlyCollection<LogMessage> LastMessages => LastMessagesList;
 
-        public static void Log(LogMessageLevel level, string message)
+        public static void Log(LogMessageLevel level, string message, TimeSpan? duration = null)
         {
-            Log(new LogMessage(level, message));
+            Log(new LogMessage(level, message, duration));
         }
 
         public static void Log(LogMessage message)

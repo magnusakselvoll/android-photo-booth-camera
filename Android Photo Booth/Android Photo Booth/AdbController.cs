@@ -52,10 +52,10 @@ namespace Android_Photo_Booth
 
         private async Task<bool> IsInteractiveAndUnlockedNfcAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
             (bool screenOn, bool screenLocked) = await GetNfcScreenStateAsync();
 
-            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {screenOn}");
-            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {screenLocked}");
+            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {screenOn}. IsLocked: {screenLocked}.", sw.Elapsed);
 
             return screenOn && !screenLocked;
         }
@@ -67,20 +67,24 @@ namespace Android_Photo_Booth
                 return await IsInteractiveNfcAsync();
             }
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             var outputLines = await ExecuteAdbCommandAsync("shell service call power 12");
 
             var result = ParseBinaryResult(outputLines);
 
-            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {result}");
+            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {result}", sw.Elapsed);
 
             return result;
         }
 
         private async Task<bool> IsInteractiveNfcAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             (bool screenOn, _) = await GetNfcScreenStateAsync();
 
-            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {screenOn}");
+            Logger.Log(LogMessageLevel.Debug, $"IsInteractive: {screenOn}", sw.Elapsed);
 
             return screenOn;
         }
@@ -123,11 +127,13 @@ namespace Android_Photo_Booth
                 return await IsLockedNfcAsync();
             }
 
+            Stopwatch sw = Stopwatch.StartNew();
+            
             var outputLines = await ExecuteAdbCommandAsync("shell service call trust 7");
 
             var result = ParseBinaryResult(outputLines);
 
-            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {result}");
+            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {result}", sw.Elapsed);
 
 
             return result;
@@ -135,9 +141,11 @@ namespace Android_Photo_Booth
 
         private async Task<bool> IsLockedNfcAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             (_, bool screenLocked) = await GetNfcScreenStateAsync();
 
-            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {screenLocked}");
+            Logger.Log(LogMessageLevel.Debug, $"IsLocked: {screenLocked}", sw.Elapsed);
 
             return screenLocked;
         }
@@ -188,22 +196,28 @@ namespace Android_Photo_Booth
 
         public async Task EnableInteractiveAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             await ExecuteAdbCommandAsync("shell input keyevent 82");
 
-            Logger.Log(LogMessageLevel.Information, "Device interactive enabled");
+            Logger.Log(LogMessageLevel.Information, "Device interactive enabled", sw.Elapsed);
         }
 
         public async Task UnlockAsync(string pin)
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             await ExecuteAdbCommandAsync($"shell input text {pin}");
             await Task.Delay(100);
             await ExecuteAdbCommandAsync("shell input keyevent 66");
 
-            Logger.Log(LogMessageLevel.Information, $"Device unlocked with pin {pin}");
+            Logger.Log(LogMessageLevel.Information, "Device unlocked with pin", sw.Elapsed);
         }
 
         public async Task OpenCameraAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             //Opening, pressing back twice to back out of e.g. photo mode, and then opening again
             await ExecuteAdbCommandAsync($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
             await Task.Delay(500);
@@ -213,28 +227,32 @@ namespace Android_Photo_Booth
             await Task.Delay(100);
             await ExecuteAdbCommandAsync($"shell am start -a android.media.action.{Settings.Default.CameraApp}");
 
-            Logger.Log(LogMessageLevel.Information, "Camera opened");
+            Logger.Log(LogMessageLevel.Information, "Camera opened", sw.Elapsed);
         }
 
         public async Task FocusCameraAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_FOCUS");
 
-            Logger.Log(LogMessageLevel.Debug, $"Camera focused");
+            Logger.Log(LogMessageLevel.Debug, $"Camera focused", sw.Elapsed);
         }
 
         public async Task<int> DownloadFilesAsync(int lastKnownCounter)
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             List<string> files = await GetStableFileListAsync();
 
-            Logger.Log(LogMessageLevel.Information, $"{files.Count} files ready for download");
+            Logger.Log(LogMessageLevel.Information, $"{files.Count} files ready for download", sw.Elapsed);
 
             foreach (string file in files)
             {
                 lastKnownCounter = await TryDownloadFileAsync(file, lastKnownCounter);
             }
 
-            Logger.Log(LogMessageLevel.Debug, "All files downloaded");
+            Logger.Log(LogMessageLevel.Debug, "All files downloaded", sw.Elapsed);
 
             return lastKnownCounter;
         }
@@ -439,9 +457,11 @@ namespace Android_Photo_Booth
 
         public async Task TakeSinglePhotoAsync()
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             await ExecuteAdbCommandAsync("shell input keyevent KEYCODE_VOLUME_UP");
 
-            Logger.Log(LogMessageLevel.Debug, $"Photo taken");
+            Logger.Log(LogMessageLevel.Debug, $"Photo taken", sw.Elapsed);
         }
     }
 }

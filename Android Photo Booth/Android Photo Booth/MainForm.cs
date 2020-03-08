@@ -51,7 +51,7 @@ namespace Android_Photo_Booth
 
         private string GetLogMessageLine(LogMessage message)
         {
-            return $"[{message.TimestampLocal:s}] {message.Level} - {message.Message}{Environment.NewLine}";
+            return $"[{message.TimestampLocal:s}] {message.Level} - {message.Message}{(message.Duration.HasValue ? $" [{(long) message.Duration.Value.TotalMilliseconds} ms" : String.Empty)}]{Environment.NewLine}";
         }
 
         private AdbController GetController()
