@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Android_Photo_Booth.Logging;
 using Android_Photo_Booth.Properties;
+using SharpDX.DirectInput;
 
 namespace Android_Photo_Booth
 {
@@ -209,8 +211,11 @@ namespace Android_Photo_Booth
             }
 
             if (Settings.Default.DownloadImagesInterval < TimeSpan.FromSeconds(1))
+            {
                 MessageBox.Show("At least one second focus keepalive interval must be set", "Too short interval",
                     MessageBoxButtons.OK);
+                return;
+            }
 
             var totalInterval = Settings.Default.DownloadImagesInterval.TotalMilliseconds;
             var intervalStep = (int) Math.Round(totalInterval /
@@ -260,6 +265,87 @@ namespace Android_Photo_Booth
             await controller.TakeSinglePhotoAsync();
 
             UpdateLastCameraAction();
+        }
+
+        private async Task TakeSinglePhoto()
+        {
+            AdbController controller = GetController();
+
+            if (_lastCameraAction + Settings.Default.CameraOpenTimeout < DateTime.UtcNow
+                || !await controller.IsInteractiveAndUnlocked())
+            {
+                await OpenCameraSafely();
+
+                await Task.Delay(1000);
+            }
+
+            await controller.TakeSinglePhotoAsync();
+
+            UpdateLastCameraAction();
+        }
+
+        private JoystickObserver _joystickObserver = null;
+        private JoystickOffset _joystickOffset;
+
+        private void OnStartJoystickButtonClicked(object sender, EventArgs e)
+        {
+            JoystickInfo joystickInfo = JoystickInfo.ConfiguredJoystick;
+
+            if (joystickInfo == null)
+            {
+                MessageBox.Show("Ensure that joystick is connected and enter settings", "No joystick configured",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (String.IsNullOrEmpty(Settings.Default.JoystickButton))
+            {
+                MessageBox.Show("Ensure that joystick is connected and enter settings and detect the button", "No joystick button configured",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            if (!Enum.TryParse(Settings.Default.JoystickButton, out _joystickOffset))
+            {
+                MessageBox.Show("Ensure that joystick is connected and enter settings and detect the button", "Incorrect joystick button configured",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            _startJoystickButton.Enabled = false;
+
+            _joystickObserver = new JoystickObserver(joystickInfo);
+            _joystickObserver.OnJoystickUpdate += OnJoystickUpdated;
+
+            _joystickObserver.Start();
+
+            _stopJoystickButton.Enabled = true;
+        }
+
+        private void OnJoystickUpdated(object sender, JoystickUpdate update)
+        {
+            if (update.Offset != _joystickOffset)
+            {
+                return;
+            }
+
+            if (update.Value == 0)
+            {
+                return; //Button released
+            }
+
+            //Invoking click on main thread
+            Invoke(new Action(() => { _takeSinglePhotoButton.PerformClick(); }));
+        }
+
+        private void OnStopJoystickButtonClicked(object sender, EventArgs e)
+        {
+            _stopJoystickButton.Enabled = false;
+
+            _joystickObserver?.Stop();
+            _joystickObserver = null;
+
+            _startJoystickButton.Enabled = true;
         }
     }
 }

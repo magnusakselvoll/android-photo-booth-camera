@@ -38,13 +38,15 @@
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._settingsButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._stopJoystickButton = new System.Windows.Forms.Button();
+            this._startJoystickButton = new System.Windows.Forms.Button();
+            this._takeSinglePhotoButton = new System.Windows.Forms.Button();
             this._logTextBox = new System.Windows.Forms.TextBox();
             this._downloadProgressBar = new System.Windows.Forms.ProgressBar();
             this._downloadButton = new System.Windows.Forms.Button();
             this._focusProgressBar = new System.Windows.Forms.ProgressBar();
             this._focusTimer = new System.Windows.Forms.Timer(this.components);
             this._downloadTimer = new System.Windows.Forms.Timer(this.components);
-            this._takeSinglePhotoButton = new System.Windows.Forms.Button();
             this._toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -121,6 +123,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._stopJoystickButton);
+            this.panel1.Controls.Add(this._startJoystickButton);
             this.panel1.Controls.Add(this._takeSinglePhotoButton);
             this.panel1.Controls.Add(this._logTextBox);
             this.panel1.Controls.Add(this._downloadProgressBar);
@@ -137,6 +141,37 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(720, 425);
             this.panel1.TabIndex = 11;
+            // 
+            // _stopJoystickButton
+            // 
+            this._stopJoystickButton.Enabled = false;
+            this._stopJoystickButton.Location = new System.Drawing.Point(435, 53);
+            this._stopJoystickButton.Name = "_stopJoystickButton";
+            this._stopJoystickButton.Size = new System.Drawing.Size(118, 23);
+            this._stopJoystickButton.TabIndex = 16;
+            this._stopJoystickButton.Text = "Stop joystick";
+            this._stopJoystickButton.UseVisualStyleBackColor = true;
+            this._stopJoystickButton.Click += new System.EventHandler(this.OnStopJoystickButtonClicked);
+            // 
+            // _startJoystickButton
+            // 
+            this._startJoystickButton.Location = new System.Drawing.Point(311, 53);
+            this._startJoystickButton.Name = "_startJoystickButton";
+            this._startJoystickButton.Size = new System.Drawing.Size(118, 23);
+            this._startJoystickButton.TabIndex = 15;
+            this._startJoystickButton.Text = "Start joystick";
+            this._startJoystickButton.UseVisualStyleBackColor = true;
+            this._startJoystickButton.Click += new System.EventHandler(this.OnStartJoystickButtonClicked);
+            // 
+            // _takeSinglePhotoButton
+            // 
+            this._takeSinglePhotoButton.Location = new System.Drawing.Point(187, 53);
+            this._takeSinglePhotoButton.Name = "_takeSinglePhotoButton";
+            this._takeSinglePhotoButton.Size = new System.Drawing.Size(118, 23);
+            this._takeSinglePhotoButton.TabIndex = 14;
+            this._takeSinglePhotoButton.Text = "Take single photo";
+            this._takeSinglePhotoButton.UseVisualStyleBackColor = true;
+            this._takeSinglePhotoButton.Click += new System.EventHandler(this.OnTakeSinglePhotoButtonClickedAsync);
             // 
             // _logTextBox
             // 
@@ -190,16 +225,6 @@
             // 
             this._downloadTimer.Tick += new System.EventHandler(this.OnDownloadTimerTickAsync);
             // 
-            // _takeSinglePhotoButton
-            // 
-            this._takeSinglePhotoButton.Location = new System.Drawing.Point(188, 52);
-            this._takeSinglePhotoButton.Name = "_takeSinglePhotoButton";
-            this._takeSinglePhotoButton.Size = new System.Drawing.Size(118, 23);
-            this._takeSinglePhotoButton.TabIndex = 14;
-            this._takeSinglePhotoButton.Text = "Take single photo";
-            this._takeSinglePhotoButton.UseVisualStyleBackColor = true;
-            this._takeSinglePhotoButton.Click += new System.EventHandler(this.OnTakeSinglePhotoButtonClickedAsync);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,6 +260,8 @@
         private System.Windows.Forms.Timer _downloadTimer;
         private System.Windows.Forms.TextBox _logTextBox;
         private System.Windows.Forms.Button _takeSinglePhotoButton;
+        private System.Windows.Forms.Button _stopJoystickButton;
+        private System.Windows.Forms.Button _startJoystickButton;
     }
 }
 

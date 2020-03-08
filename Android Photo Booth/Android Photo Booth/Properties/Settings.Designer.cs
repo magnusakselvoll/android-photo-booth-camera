@@ -190,5 +190,29 @@ namespace Android_Photo_Booth.Properties {
                 this["CameraOpenTimeout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00000000-0000-0000-0000-000000000000")]
+        public global::System.Guid Joystick {
+            get {
+                return ((global::System.Guid)(this["Joystick"]));
+            }
+            set {
+                this["Joystick"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JoystickButton {
+            get {
+                return ((string)(this["JoystickButton"]));
+            }
+            set {
+                this["JoystickButton"] = value;
+            }
+        }
     }
 }
