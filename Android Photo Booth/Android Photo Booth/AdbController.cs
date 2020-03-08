@@ -214,6 +214,15 @@ namespace Android_Photo_Booth
             Logger.Log(LogMessageLevel.Information, "Device unlocked with pin", sw.Elapsed);
         }
 
+        public async Task LockAsync(string pin)
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+
+            await ExecuteAdbCommandAsync("shell input keyevent 26");
+
+            Logger.Log(LogMessageLevel.Information, "Device locked", sw.Elapsed);
+        }
+
         public async Task OpenCameraAsync()
         {
             Stopwatch sw = Stopwatch.StartNew();
