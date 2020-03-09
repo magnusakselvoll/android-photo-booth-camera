@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Android_Photo_Booth.Logging;
@@ -146,9 +148,47 @@ namespace Android_Photo_Booth
             UpdateLastCameraAction();
         }
 
+        private CancellationTokenSource _inactivityLockTokenSource = null;
+
         private void UpdateLastCameraAction()
         {
+            _inactivityLockTokenSource?.Cancel();
+
+            _inactivityLockTokenSource = new CancellationTokenSource();
+
+            Task.Run(new Action((async () =>
+                {
+                    await LockAfterInactivityAsync(_inactivityLockTokenSource.Token);
+                })),
+                _inactivityLockTokenSource.Token);
+
             _lastCameraAction = DateTime.UtcNow;
+        }
+
+        private async Task LockAfterInactivityAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                await Task.Delay(Settings.Default.InactivityLockTimeout, cancellationToken);
+
+                Invoke(new Action(async () => { await LockIfNotInteractiveAsync(); }));
+            }
+            catch (OperationCanceledException)
+            {
+            }
+        }
+
+        private async Task<bool> LockIfNotInteractiveAsync()
+        {
+            var controller = GetController();
+
+            if (!await controller.IsInteractiveAsync())
+            {
+                return true;
+            }
+
+            await controller.LockAsync();
+            return false;
         }
 
         private void OnFocusButtonClick(object sender, EventArgs e)

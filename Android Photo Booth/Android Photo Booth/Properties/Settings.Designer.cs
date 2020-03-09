@@ -214,5 +214,17 @@ namespace Android_Photo_Booth.Properties {
                 this["JoystickButton"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:01:00")]
+        public global::System.TimeSpan InactivityLockTimeout {
+            get {
+                return ((global::System.TimeSpan)(this["InactivityLockTimeout"]));
+            }
+            set {
+                this["InactivityLockTimeout"] = value;
+            }
+        }
     }
 }

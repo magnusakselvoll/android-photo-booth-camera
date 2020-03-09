@@ -45,6 +45,7 @@
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
+            System.Windows.Forms.Label label5;
             this._saveButton = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
             this._adbBrowseButton = new System.Windows.Forms.Button();
@@ -72,6 +73,7 @@
             this._joystickInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._joystickButtonTextbox = new System.Windows.Forms.TextBox();
             this._detectJoystickButton = new System.Windows.Forms.Button();
+            this._inactivityLockTimeoutTextBox = new System.Windows.Forms.TextBox();
             adbPathLabel = new System.Windows.Forms.Label();
             cameraAppLabel = new System.Windows.Forms.Label();
             focusKeepaliveIntervalLabel = new System.Windows.Forms.Label();
@@ -88,6 +90,7 @@
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._settingsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._cameraTypeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._joystickInfoBindingSource)).BeginInit();
@@ -230,47 +233,57 @@
             label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(107, 13);
-            label2.TabIndex = 32;
+            label2.TabIndex = 29;
             label2.Text = "Camera open timeout";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(11, 338);
+            label3.Location = new System.Drawing.Point(10, 362);
             label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(48, 13);
-            label3.TabIndex = 34;
+            label3.TabIndex = 33;
             label3.Text = "Joystick:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(11, 363);
+            label4.Location = new System.Drawing.Point(10, 387);
             label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(81, 13);
-            label4.TabIndex = 36;
+            label4.TabIndex = 35;
             label4.Text = "Joystick button:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(11, 338);
+            label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(109, 13);
+            label5.TabIndex = 31;
+            label5.Text = "Inactivity lock timeout";
             // 
             // _saveButton
             // 
-            this._saveButton.Location = new System.Drawing.Point(160, 410);
+            this._saveButton.Location = new System.Drawing.Point(160, 493);
             this._saveButton.Margin = new System.Windows.Forms.Padding(2);
             this._saveButton.Name = "_saveButton";
             this._saveButton.Size = new System.Drawing.Size(50, 23);
-            this._saveButton.TabIndex = 29;
+            this._saveButton.TabIndex = 38;
             this._saveButton.Text = "Save";
             this._saveButton.UseVisualStyleBackColor = true;
             this._saveButton.Click += new System.EventHandler(this.OnSaveButtonClicked);
             // 
             // _cancelButton
             // 
-            this._cancelButton.Location = new System.Drawing.Point(214, 410);
+            this._cancelButton.Location = new System.Drawing.Point(214, 493);
             this._cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this._cancelButton.Name = "_cancelButton";
             this._cancelButton.Size = new System.Drawing.Size(50, 23);
-            this._cancelButton.TabIndex = 30;
+            this._cancelButton.TabIndex = 39;
             this._cancelButton.Text = "Cancel";
             this._cancelButton.UseVisualStyleBackColor = true;
             this._cancelButton.Click += new System.EventHandler(this.OnCancelButtonClicked);
@@ -344,7 +357,7 @@
             this.deviceImageFolderTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.deviceImageFolderTextBox.Name = "deviceImageFolderTextBox";
             this.deviceImageFolderTextBox.Size = new System.Drawing.Size(317, 20);
-            this.deviceImageFolderTextBox.TabIndex = 12;
+            this.deviceImageFolderTextBox.TabIndex = 14;
             // 
             // deleteAfterDownloadCheckBox
             // 
@@ -353,7 +366,7 @@
             this.deleteAfterDownloadCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.deleteAfterDownloadCheckBox.Name = "deleteAfterDownloadCheckBox";
             this.deleteAfterDownloadCheckBox.Size = new System.Drawing.Size(69, 16);
-            this.deleteAfterDownloadCheckBox.TabIndex = 14;
+            this.deleteAfterDownloadCheckBox.TabIndex = 12;
             this.deleteAfterDownloadCheckBox.UseVisualStyleBackColor = true;
             // 
             // workingFolderTextBox
@@ -402,11 +415,11 @@
             // 
             // _resetButton
             // 
-            this._resetButton.Location = new System.Drawing.Point(268, 410);
+            this._resetButton.Location = new System.Drawing.Point(268, 493);
             this._resetButton.Margin = new System.Windows.Forms.Padding(2);
             this._resetButton.Name = "_resetButton";
             this._resetButton.Size = new System.Drawing.Size(50, 23);
-            this._resetButton.TabIndex = 31;
+            this._resetButton.TabIndex = 40;
             this._resetButton.Text = "Reset";
             this._resetButton.UseVisualStyleBackColor = true;
             this._resetButton.Click += new System.EventHandler(this.OnResetButtonClicked);
@@ -470,7 +483,7 @@
             this._cameraOpenTimeoutCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this._cameraOpenTimeoutCheckBox.Name = "_cameraOpenTimeoutCheckBox";
             this._cameraOpenTimeoutCheckBox.Size = new System.Drawing.Size(317, 20);
-            this._cameraOpenTimeoutCheckBox.TabIndex = 33;
+            this._cameraOpenTimeoutCheckBox.TabIndex = 30;
             // 
             // _joystickComboBox
             // 
@@ -479,11 +492,11 @@
             this._joystickComboBox.DisplayMember = "Name";
             this._joystickComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._joystickComboBox.FormattingEnabled = true;
-            this._joystickComboBox.Location = new System.Drawing.Point(161, 335);
+            this._joystickComboBox.Location = new System.Drawing.Point(160, 359);
             this._joystickComboBox.Margin = new System.Windows.Forms.Padding(2);
             this._joystickComboBox.Name = "_joystickComboBox";
             this._joystickComboBox.Size = new System.Drawing.Size(317, 21);
-            this._joystickComboBox.TabIndex = 35;
+            this._joystickComboBox.TabIndex = 34;
             this._joystickComboBox.ValueMember = "Id";
             // 
             // _joystickInfoBindingSource
@@ -493,22 +506,31 @@
             // _joystickButtonTextbox
             // 
             this._joystickButtonTextbox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "JoystickButton", true));
-            this._joystickButtonTextbox.Location = new System.Drawing.Point(160, 360);
+            this._joystickButtonTextbox.Location = new System.Drawing.Point(159, 384);
             this._joystickButtonTextbox.Margin = new System.Windows.Forms.Padding(2);
             this._joystickButtonTextbox.Name = "_joystickButtonTextbox";
             this._joystickButtonTextbox.Size = new System.Drawing.Size(317, 20);
-            this._joystickButtonTextbox.TabIndex = 37;
+            this._joystickButtonTextbox.TabIndex = 36;
             // 
             // _detectJoystickButton
             // 
-            this._detectJoystickButton.Location = new System.Drawing.Point(482, 358);
+            this._detectJoystickButton.Location = new System.Drawing.Point(481, 382);
             this._detectJoystickButton.Margin = new System.Windows.Forms.Padding(2);
             this._detectJoystickButton.Name = "_detectJoystickButton";
             this._detectJoystickButton.Size = new System.Drawing.Size(50, 23);
-            this._detectJoystickButton.TabIndex = 38;
+            this._detectJoystickButton.TabIndex = 37;
             this._detectJoystickButton.Text = "Detect";
             this._detectJoystickButton.UseVisualStyleBackColor = true;
             this._detectJoystickButton.Click += new System.EventHandler(this.OnDetectJoystickButtonClickedAsync);
+            // 
+            // _inactivityLockTimeoutTextBox
+            // 
+            this._inactivityLockTimeoutTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this._settingsBindingSource, "InactivityLockTimeout", true));
+            this._inactivityLockTimeoutTextBox.Location = new System.Drawing.Point(160, 335);
+            this._inactivityLockTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this._inactivityLockTimeoutTextBox.Name = "_inactivityLockTimeoutTextBox";
+            this._inactivityLockTimeoutTextBox.Size = new System.Drawing.Size(317, 20);
+            this._inactivityLockTimeoutTextBox.TabIndex = 32;
             // 
             // SettingsForm
             // 
@@ -516,6 +538,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(543, 628);
+            this.Controls.Add(label5);
+            this.Controls.Add(this._inactivityLockTimeoutTextBox);
             this.Controls.Add(this._detectJoystickButton);
             this.Controls.Add(label4);
             this.Controls.Add(this._joystickButtonTextbox);
@@ -595,5 +619,6 @@
         private System.Windows.Forms.BindingSource _joystickInfoBindingSource;
         private System.Windows.Forms.TextBox _joystickButtonTextbox;
         private System.Windows.Forms.Button _detectJoystickButton;
+        private System.Windows.Forms.TextBox _inactivityLockTimeoutTextBox;
     }
 }

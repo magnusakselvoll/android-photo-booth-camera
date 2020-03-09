@@ -214,7 +214,7 @@ namespace Android_Photo_Booth
             Logger.Log(LogMessageLevel.Information, "Device unlocked with pin", sw.Elapsed);
         }
 
-        public async Task LockAsync(string pin)
+        public async Task LockAsync()
         {
             Stopwatch sw = Stopwatch.StartNew();
 
